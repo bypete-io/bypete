@@ -29,12 +29,10 @@ import Swiper, {
     EffectCreative,
     Thumbs,
 } from 'swiper';
-
 import Alpine from 'alpinejs';
 import intersect from '@alpinejs/intersect';
 import persist from '@alpinejs/persist';
 import sticky from 'alpinejs-sticky';
-
 import JustValidate from 'just-validate';
 
 Swiper.use([
@@ -59,8 +57,6 @@ window.Cookies = Cookies;
 --------------------------------------------------------------------------------*/
 document.addEventListener('alpine:init', () => {
     Alpine.store('cache', {
-        headerSM: null,
-        headerMD: null,
         theme: null,
     });
     Alpine.data('toc', () => ({
@@ -86,8 +82,6 @@ document.addEventListener('alpine:init', () => {
         },
     }));
 
-    // https://alpinejs.dev/globals/alpine-data#using-magic-properties - use this.$refs
-    // Activates on scroll up
     Alpine.data('stickybanner', () => ({
         lastScrollTop: 0,
         reactOnScroll() {
@@ -129,46 +123,20 @@ document.addEventListener('alpine:init', () => {
         },
     }));
 
-    Alpine.data('overlay', () => ({
-        showOverlay: false,
-        init() {
-            this.$watch('showOverlay', (value) => {
-                if (value) {
-                    document.body.style.overflow = 'hidden';
-                } else {
-                    document.body.style.overflow = '';
-                }
-            });
-        },
-    }));
-
     Alpine.data('menu', () => ({
         open: false,
-
-        freeze() {
-            this.menuUnderlay = true;
-            this.$refs.body.classList.add('overflow-hidden');
-            this.$refs.banner.classList.add('banner--freeze');
+        freeze(freezeState) {
+            this.$refs.body.classList.toggle('overflow-hidden', freezeState);
+            this.$refs.banner.classList.toggle('banner--freeze', freezeState);
+            this.$dispatch('show-underlay', { visible: freezeState });
         },
-        thaw() {
-            this.menuUnderlay = false;
-            this.$refs.body.classList.remove('overflow-hidden');
-            this.$refs.banner.classList.remove('banner--freeze');
-        },
-
         checkAriaExpanded() {
             const buttons = this.$refs.banner.querySelectorAll('button');
             const expandedButtonFound = [...buttons].some(
                 (button) => button.getAttribute('aria-expanded') === 'true',
             );
-
-            if (expandedButtonFound) {
-                this.freeze();
-            } else {
-                this.thaw();
-            }
+            this.freeze(expandedButtonFound);
         },
-
         toggle() {
             this.open = !this.open;
             if (this.open) {
@@ -183,7 +151,6 @@ document.addEventListener('alpine:init', () => {
                 focusAfter.focus();
             }
         },
-
         init() {
             this.$watch('open', (value, oldValue) => {
                 this.checkAriaExpanded();
@@ -192,71 +159,48 @@ document.addEventListener('alpine:init', () => {
     }));
 
     Alpine.data('hamburger', () => ({
-        freeze() {
-            this.$refs.body.classList.add('overflow-hidden');
-            this.$dispatch('freeze-banner', this.smNavOpen);
-        },
-        thaw() {
-            this.$refs.body.classList.remove('overflow-hidden');
-            this.$dispatch('thaw-banner', this.smNavOpen);
+        freeze(freezeState) {
+            this.$refs.body.classList.toggle('overflow-hidden', freezeState);
+            this.$refs.banner.classList.toggle('banner--freeze', freezeState);
         },
         toggle() {
-            let cache = this.$store.cache.theme;
-            if (!cache) {
-                cache = document
-                    .querySelector('meta[name="theme-color"]')
-                    .getAttribute('content');
-                this.$store.cache.theme = cache;
-            }
-            this.smNavOpen = !this.smNavOpen;
-            if (this.smNavOpen) {
-                document
-                    .querySelector('meta[name="theme-color"]')
-                    .setAttribute('content', '#ffd200'); // brand
-                this.freeze();
-            } else {
-                document
-                    .querySelector('meta[name="theme-color"]')
-                    .setAttribute('content', cache); // revert to previously cached
-                this.thaw();
-            }
+            const themeMeta = document.querySelector(
+                'meta[name="theme-color"]',
+            );
+            const cache =
+                this.$store.cache.theme || themeMeta.getAttribute('content');
+            this.$store.cache.theme = cache;
+            this.smNav = !this.smNav;
+            themeMeta.setAttribute('content', this.smNav ? '#ffd200' : cache);
+            this.freeze(this.smNav);
         },
     }));
 
     Alpine.data('cookie', () => ({
-        hidecookie: true,
+        cookie: '',
+        showCookie: false,
         cookie_name: 'cnotice',
-        freeze() {
-            this.$refs.body.classList.add('overflow-hidden');
-            this.$dispatch('show-overlay', this.hidecookie);
-        },
-        thaw() {
-            this.$refs.body.classList.remove('overflow-hidden');
-            this.$dispatch('hide-overlay', this.hidecookie);
+        freeze(freezeState) {
+            this.showCookie = freezeState;
+            this.$refs.body.classList.toggle('overflow-hidden', freezeState);
+            this.$dispatch('show-overlay', { visible: freezeState });
         },
         init() {
             setTimeout(() => {
-                this.hidecookie = Cookies.get(this.cookie_name);
-                if (this.hidecookie) {
-                    // do nothing
-                } else {
-                    this.freeze();
+                this.cookie = Cookies.get(this.cookie_name);
+                if (!this.cookie) {
+                    this.freeze(true);
                 }
             }, 6000);
         },
         accept() {
-            this.hidecookie = true;
-            this.thaw();
+            this.freeze(false);
             Cookies.set(this.cookie_name, true, {
                 expires: 365,
                 path: '/',
                 secure: true,
                 sameSite: 'strict',
             });
-        },
-        hide() {
-            this.hidecookie = true;
-            this.thaw();
         },
     }));
 
@@ -371,10 +315,6 @@ window.Alpine = Alpine;
 Alpine.start();
 smoothscroll.polyfill();
 
-/* Alpine JS | Sandbox
-https://alpinejs.dev/advanced/extending
---------------------------------------------------------------------------------*/
-
 /* Vanilla JS | Common 
 --------------------------------------------------------------------------------*/
 const isInViewport = (elem) => {
@@ -388,21 +328,6 @@ const isInViewport = (elem) => {
             (window.innerWidth || document.documentElement.clientWidth)
     );
 };
-
-/* Vanilla JS | Useful functions | Animate CSS
---------------------------------------------------------------------------------*/
-function animateCSS(element, animationName, callback) {
-    const node = document.querySelector(element);
-    node.classList.add('animated', animationName);
-
-    function handleAnimationEnd() {
-        node.classList.remove('animated', animationName);
-        node.removeEventListener('animationend', handleAnimationEnd);
-        if (typeof callback === 'function') callback();
-    }
-
-    node.addEventListener('animationend', handleAnimationEnd);
-}
 
 /* Vanilla JS | Hide Prompts | [ Uses "data-prompt" attribute ]
 --------------------------------------------------------------------------------*/
@@ -578,7 +503,6 @@ if (prompts) {
 
     Array.from(swiperArray).forEach((swiper, i) => {
         const ref = `swiper--block${i}`; // swiper--block0 - without . class prefix
-        const refClass = `.swiper--block${i}`; // .swiper--block0 - with . class prefix
         swiper.classList.add(ref);
         const prev = swiper.querySelector('.swiper-button-prev');
         const next = swiper.querySelector('.swiper-button-next');
@@ -606,17 +530,17 @@ if (prompts) {
                 delay: 7500,
             },
             pagination: {
-                el: `${refClass}__pagination`, // .swiper--block0__pagination
+                el: `.${ref}__pagination`, // .swiper--block0__pagination
                 clickable: true,
             },
             navigation: {
-                nextEl: `${refClass}__next`, // .swiper--block0__next
-                prevEl: `${refClass}__prev`, // .swiper--block0__prev
+                nextEl: `.${ref}__next`, // .swiper--block0__next
+                prevEl: `.${ref}__prev`, // .swiper--block0__prev
             },
             watchOverflow: true, // disable if only single slide
         });
         if (slider.slides.length === 1) {
-            document.querySelector(refClass).classList.add('swiper-lock');
+            document.querySelector(`.${ref}`).classList.add('swiper-lock');
         }
     }, 'myThisArg');
 }

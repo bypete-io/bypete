@@ -73,7 +73,7 @@
   </head>
   <body id="top"
         class="bg-white scroll-pt-[var(--headerheight)] font-Roboto antialiased text-gray-700 flex max-w-full min-h-full relative overflow-x-hidden {{ 'hero--dark' if hero.dark else 'hero--light' }}"
-        x-data="{ pageTop: false, smNavOpen: false, menuUnderlay: false, overlay: false, showOverlay: false}"
+        x-data="{ pageTop: false, smNav: false, overlay: false, showOverlay: false, showUnderlay: false, }"
         x-ref="body">
     <div id="loader"></div>
     <!-- Google Tag Manager (noscript) -->
@@ -101,8 +101,7 @@
     <div class="bg-gray-800 bg-opacity-80 fixed inset-0 h-full min-h-screen z-overlay backdrop-grayscale backdrop-blur-sm"
          x-ref="overlay"
          x-show="showOverlay"
-         @show-overlay.window="showOverlay = true; callback = true"
-         @hide-overlay.window="showOverlay = false; callback = true"
+         @show-overlay.window="showOverlay = $event.detail.visible"
          x-transition:enter="transition ease-out duration-150"
          x-transition:enter-start="opacity-0 "
          x-transition:enter-end="opacity-100 "
@@ -110,8 +109,9 @@
          x-transition:leave-start="opacity-100 "
          x-transition:leave-end="opacity-0 "
          x-cloak></div>
-    <div class="{{ 'bg-gray-900' if hero.dark else 'bg-white' }} bg-opacity-90 fixed inset-0 h-full min-h-screen z-[900] backdrop-grayscale backdrop-blur-sm"
-         x-show="menuUnderlay"
+    <div class="{{ 'bg-gray-900' if hero.dark else 'bg-white' }} bg-opacity-90 fixed inset-0 h-full min-h-screen z-underlay backdrop-grayscale backdrop-blur-sm"
+         x-show="showUnderlay"
+         @show-underlay.window="showUnderlay = $event.detail.visible"
          x-transition:enter="transition ease-out duration-150"
          x-transition:enter-start="opacity-0 "
          x-transition:enter-end="opacity-100 "

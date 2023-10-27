@@ -4,11 +4,8 @@
 <header class="banner banner--start py-6 z-banner w-full top-0 duration-300 delay-150"
         :class="{'banner--freeze' : banner == 'freeze', 'banner--start': banner == 'start', 'banner--up': banner == 'up', 'banner--down ': banner == 'down'}"
         x-ref="banner"
-        x-data="{ banner:'start', cachedBanner: null, ...stickybanner()}"
+        x-data="{ banner:'start', ...stickybanner()}"
         x-init="reactOnScroll()"
-        @set-banner.window="banner = $event.detail"
-        @freeze-banner.window="$refs.banner.classList.add('banner--freeze', $event.detail)"
-        @thaw-banner.window="$refs.banner.classList.remove('banner--freeze', $event.detail)"
         @scroll.window="reactOnScroll()">
   <div class="max-w-container mx-auto flex flex-col  md:items-center md:justify-between md:flex-row">
     <div class="flex flex-row items-center justify-between z-10">
@@ -18,7 +15,7 @@
                height="40"
                width="140"
                class="banner__logo w-auto transition-all h-10"
-               :src="banner == 'up' || smNavOpen ? '/img/logos/bypete--ribbon.svg' : '/img/logos/bypete--white.svg'"
+               :src="banner == 'up' || smNav ? '/img/logos/bypete--ribbon.svg' : '/img/logos/bypete--white.svg'"
                alt="byPete">
         {% else -%}
           <img src="/img/logos/bypete--ribbon.svg"
@@ -89,7 +86,7 @@
   {# mobile navigation -#}
 </header>
 <div class="fixed inset-0 z-banner h-full flex items-start bg-brand "
-     x-show="smNavOpen"
+     x-show="smNav"
      x-cloak
      x-transition:enter="transition ease-out duration-500"
      x-transition:enter-start="transform opacity-0"

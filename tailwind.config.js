@@ -77,6 +77,7 @@ module.exports = {
                 shortcuts: '1001',
                 banner: '1000',
                 bannershadow: '999',
+                underlay: '990',
                 toc: '900',
             },
             backgroundImage: {
