@@ -1,0 +1,55 @@
+{% set layoutRef = "work" %}
+{%- import "macros/components.njk" as macro with context -%}
+{% extends "layouts/base.njk" %}
+{% block main %}
+  <main id="main-content">
+    {% if img -%}
+      <div class="grid grid-cols-1 lg:grid-cols-work conpad:grid-cols-workcontianer w-full relative z-10 shadow-xl shadow-black/10">
+        {% set alttitle = 'Listing image for ' + title %}
+        {% image { src: img.listing, alt: alttitle, credit: img.credit, widths:[780, 960, 1920], sizes:'100vw, (min-width: 1024px) 50vw, (min-width: 1264px) 56.25vw', wrapper: 'h-square lg:h-auto lg:min-h-screen', classlist: 'object-cover w-full h-full absolute inset-0', loading: 'eager'  } %}
+        <div class="self-end rte {{ utilities.tramline.x }} py-4 md:pb-8 lg:pb-12 conpad:pr-0">
+          <h1>{{ title | safe }}</h1>
+          {% if taster -%}
+            <p>{{ taster }}</p>
+          {% endif -%}
+          <p class="flex flex-wrap items-center gap-2 w-full text-2sm uppercase {{ utilities.margin.y }} leading-none">
+            {% for tag in tags | filterTagList %}
+              {# djlint:off #}{% set tagUrl %}/tags/{{ tag | slugify }}/{% endset %}{# djlint:on #}
+              {%- include "partials/tag.njk" %}
+            {% endfor %}
+          </p>
+          <p>
+            <a href="#start"
+               class="btn btn--outline btn--icon hidden md:inline-flex transform duration-300">Scroll to start
+              <i class="fa-regular fa-circle-down animate-nudge-down"></i>
+            </a>
+          </p>
+        </div>
+      </div>
+    {% endif -%}
+    <div class="max-w-container mx-auto">
+      <article id="start" class="max-w-3xl mx-auto">
+        <div class="max-w-none rte prose lg:prose-lg mx-auto">
+          {%- set roles = {"breakout": "true"} -%}
+          {%- include "partials/skills.njk" %}
+          {% block content %}
+            {{ content | safe }}
+          {% endblock -%}
+        </div>
+        <aside class="w-full py-4 md:py-8 mt-4 md:mt-8">
+          <p>
+            Last updated <time class="bg-neutral-100 rounded inline-block px-2"
+       datetime="{{ page.date | htmlDateString }}">{{ page.date | readableDate }}</time>
+          </p>
+          <p class="flex flex-wrap not-prose items-center gap-2 w-full text-xs uppercase mt-4 leading-none">
+            {%- for tag in tags | filterTagList %}
+              {# djlint:off #}{% set tagUrl %}/tags/{{ tag | slugify }}/{% endset %}{# djlint:on #}
+              {% include "partials/tag.njk" %}
+            {%- endfor %}
+          </p>
+        </aside>
+      </article>
+      {%- include "partials/nextprev.njk" %}
+    </div>
+  </main>
+{% endblock -%}

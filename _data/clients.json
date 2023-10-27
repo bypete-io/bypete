@@ -1,0 +1,100 @@
+{
+  "logos": [
+    {
+      "alt": "AFV",
+      "image": "/img/logos/afv.webp",
+      "width": "534",
+      "height": "122"
+    },
+    {
+      "alt": "BBC",
+      "image": "/img/logos/bbc.svg",
+      "width": "119",
+      "height": "35"
+    },
+    {
+      "alt": "bwin",
+      "image": "/img/logos/bwin.svg",
+      "width": "119",
+      "height": "43"
+    },
+    {
+      "alt": "Elekta",
+      "image": "/img/logos/elekta.svg",
+      "width": "119",
+      "height": "44"
+    },
+    {
+      "alt": "Emerging Payments Association",
+      "image": "/img/logos/epa.svg",
+      "width": "119",
+      "height": "44"
+    },
+    {
+      "alt": "GPS",
+      "image": "/img/logos/gps.svg",
+      "width": "119",
+      "height": "34"
+    },
+    {
+      "alt": "GamesYouLoved",
+      "image": "/img/logos/gyl.png",
+      "width": "300",
+      "height": "225"
+    },
+    {
+      "alt": "Kalixa",
+      "image": "/img/logos/kalixa.svg",
+      "width": "119",
+      "height": "42"
+    },
+    {
+      "alt": "K Ring",
+      "image": "/img/logos/KRing.svg",
+      "width": "180",
+      "height": "80"
+    },
+    {
+      "alt": "Mastercard",
+      "image": "/img/logos/mastercard.svg",
+      "width": "180",
+      "height": "142"
+    },
+    {
+      "alt": "Mastercard rePower",
+      "image": "/img/logos/mastercard_repower.svg",
+      "width": "301",
+      "height": "98"
+    },
+    {
+      "alt": "OnePay",
+      "image": "/img/logos/onepay.svg",
+      "width": "119",
+      "height": "40"
+    },
+    {
+      "alt": "Optimal Payments",
+      "image": "/img/logos/optimalpayments.svg",
+      "width": "119",
+      "height": "36"
+    },
+    {
+      "alt": "Oxford University Press",
+      "image": "/img/logos/oup.svg",
+      "width": "119",
+      "height": "34"
+    },
+    {
+      "alt": "The War of the Worlds",
+      "image": "/img/logos/twotw.png",
+      "width": "300",
+      "height": "158"
+    },
+    {
+      "alt": "Unicef",
+      "image": "/img/logos/unicef-uk.png",
+      "width": "240",
+      "height": "240"
+    }
+  ]
+}

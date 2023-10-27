@@ -1,0 +1,4 @@
+Sitemap: https://www.bypete.uk/sitemap.xml
+
+User-agent: \*
+Disallow:

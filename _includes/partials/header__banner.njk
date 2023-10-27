@@ -1,0 +1,155 @@
+{%- set navPages = collections.all | excludeByFrontMatter("excludeFromMenu") | eleventyNavigation -%}
+<div class="fixed top-0 -translate-y-full w-full shadow-smframe md:shadow-frame h-10 border border-t-2  z-bannershadow {{ 'shadow-black/20 bg-black border-black' if hero.dark else 'shadow-black/10 bg-white border-white' }}">
+</div>
+<header class="banner banner--start py-6 z-banner w-full top-0 duration-300 delay-150"
+        :class="{'banner--freeze' : banner == 'freeze', 'banner--start': banner == 'start', 'banner--up': banner == 'up', 'banner--down ': banner == 'down'}"
+        x-ref="banner"
+        x-data="{ banner:'start', cachedBanner: null, ...stickybanner()}"
+        x-init="reactOnScroll()"
+        @set-banner.window="banner = $event.detail"
+        @freeze-banner.window="$refs.banner.classList.add('banner--freeze', $event.detail)"
+        @thaw-banner.window="$refs.banner.classList.remove('banner--freeze', $event.detail)"
+        @scroll.window="reactOnScroll()">
+  <div class="max-w-container mx-auto flex flex-col  md:items-center md:justify-between md:flex-row">
+    <div class="flex flex-row items-center justify-between z-10">
+      <a href="{{ '/' | url }}" aria-label="{{ metadata.url }} - home">
+        {% if hero.dark -%}
+          <img src="/img/logos/bypete--white.svg"
+               height="40"
+               width="140"
+               class="banner__logo w-auto transition-all h-10"
+               :src="banner == 'up' || smNavOpen ? '/img/logos/bypete--ribbon.svg' : '/img/logos/bypete--white.svg'"
+               alt="byPete">
+        {% else -%}
+          <img src="/img/logos/bypete--ribbon.svg"
+               height="40"
+               width="140"
+               class="banner__logo w-auto transition-all h-10"
+               alt="byPete">
+        {% endif -%}
+      </a>
+    </div>
+    <nav id="navigation" class="z-10">
+      <ul class="hidden md:flex my-0 space-x-2 justify-end flex-row"
+          x-ref="menu">
+        {% for entry in navPages -%}
+          {%- if entry.children.length -%}
+            <li class="relative px-2"
+                x-data="menu"
+                @keydown.escape.prevent.stop="close($refs.button)"
+                @focusin.window="! $refs.banner.contains($event.target) && close()"
+                x-id="['dropdown-button']">
+              <div class="relative flex items-center">
+                <a href="{{ entry.url }}" class="block w-full pr-9 pl-2 py-2 menulink" {{ helpers.getLinkActiveState(entry.url, page.url) | safe }}>{{ entry.title }}</a>
+                {# Dropdown button -#}
+                <button @click="toggle()"
+                        x-ref="button"
+                        type="button"
+                        :aria-expanded="open"
+                        :aria-controls="$id('dropdown-button')"
+                        class="menulink__toggle absolute right-2 flex items-center justify-center w-5 h-5 p-0 rounded-full focus:outline-none focus:ring-2">
+                  <svg fill="currentColor"
+                       viewBox="0 0 20 20"
+                       :class="{'rotate-180': open, 'rotate-0': !open}"
+                       class="inline w-4 h-4 transition-transform duration-200 transform ">
+                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd">
+                    </path>
+                  </svg>
+                </button>
+              </div>
+              {# Nested menu panel -#}
+              <div x-ref="panel"
+                   x-show="open"
+                   @click.outside="close($refs.button)"
+                   :id="$id('dropdown-button')"
+                   x-cloak
+                   x-transition:enter="transition ease-out duration-500"
+                   x-transition:enter-start="transform opacity-0 scale-95"
+                   x-transition:enter-end="transform opacity-100 scale-100"
+                   x-transition:leave="transition ease-in duration-75"
+                   x-transition:leave-start="transform opacity-100 scale-100"
+                   x-transition:leave-end="transform opacity-0 scale-95"
+                   class="mt-3 absolute right-0 origin-top-right w-48">
+                <div class="bg-white rounded-tight max-h-[calc(100vh-3rem-var(--headerheight))] overflow-y-scroll shadow-menu  shadow-gray-900/25">
+                  {%- for child in entry.children %}
+                    <a class="block px-3 py-2 text-sm font-light first:rounded-t-tight last:rounded-b-tight  hover:bg-slate-200 focus:bg-slate-300 focus:outline-none focus:ring-1 data-[state=active]:bg-brand " href="{{ child.url }}" {{ helpers.getLinkActiveState(child.url, page.url) | safe }}>{{ child.title | safe }}</a>
+                  {%- endfor -%}
+                </div>
+              </div>
+            </li>
+          {%- else %}
+            <li class="relative">
+              <a class="menulink p-2" href="{{ entry.url }}" {{ helpers.getLinkActiveState(entry.url, page.url) | safe }}>{{ entry.title | safe }}</a>
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    </nav>
+  </div>
+  {# mobile navigation -#}
+</header>
+<div class="fixed inset-0 z-banner h-full flex items-start bg-brand "
+     x-show="smNavOpen"
+     x-cloak
+     x-transition:enter="transition ease-out duration-500"
+     x-transition:enter-start="transform opacity-0"
+     x-transition:enter-end="transform opacity-100 "
+     x-transition:leave="transition ease-in duration-75"
+     x-transition:leave-start="transform opacity-100 "
+     x-transition:leave-end="transform opacity-0 ">
+  <div class="flex flex-col h-full w-full mr-20 pl-4 py-6 ">
+    <div class="flex-shrink text-left">
+      <a href="{{ '/' | url }}" aria-label="{{ metadata.url }} - home">
+        <img src="/img/logos/bypete--white.svg"
+             height="40"
+             width="140"
+             class="banner__logo !shadow-brand-darker w-auto transition-all h-10"
+             alt="byPete">
+      </a>
+    </div>
+    <ul id="mobilenavigation"
+        class="grow flex flex-col justify-center space-y-3 w-full">
+      {% for entry in navPages -%}
+        {%- if entry.children.length -%}
+          <li class="relative  md:px-2" x-data="{ open: false }">
+            <div class="relative flex items-center justify-between">
+              <a href="{{ entry.url }}" class="block font-headline font-black text-4xl tracking-tight data-[state=active]:text-white" {{ helpers.getLinkActiveState(entry.url, page.url) | safe }}>{{ entry.title }}</a>
+              <button @click="open = !open"
+                      class="flex items-center justify-center w-10 h-10 p-0 rounded-full focus:outline-none"
+                      :class="{ 'bg-white': open }">
+                <svg fill="currentColor"
+                     viewBox="0 0 20 20"
+                     :class="{'rotate-180': open, 'rotate-0': !open}"
+                     class="inline w-8 h-8 transition-transform duration-200 transform ">
+                  <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd">
+                  </path>
+                </svg>
+              </button>
+            </div>
+            <div x-cloak
+                 x-ref="children"
+                 class="w-full h-0 origin-top transition-all duration-700"
+                 :class="open ? 'overflow-auto mt-2' : 'overflow-hidden pointer-events-none' "
+                 :style="open ? {height: `${$refs.children.scrollHeight}px`} : {height: `0px`}">
+              <div class="max-h-[30vh] overflow-y-scroll p-2 bg-white  rounded-tight shadow-inner shadow-gray-200">
+                {%- for child in entry.children %}
+                  <a class="block px-3 py-1.5 text-base font-light text-slate-800  hover:bg-white focus:bg-white focus:outline-none focus:ring-1 data-[state=active]:font-bold  data-[state=active]:bg-brand " href="{{ child.url }}" {{ helpers.getLinkActiveState(child.url, page.url) | safe }}>{{ child.title }}</a>
+                {%- endfor -%}
+              </div>
+            </div>
+          </li>
+        {%- else %}
+          <li class="relative">
+            <a class="w-full py-0.5 font-headline font-black text-4xl tracking-tight data-[state=active]:text-white" href="{{ entry.url }}" {{ helpers.getLinkActiveState(entry.url, page.url) | safe }}>{{ entry.title | safe }}</a>
+          </li>
+        {%- endif -%}
+      {%- endfor -%}
+    </ul>
+    <ul class="inline-flex mt-8 -mx-2">
+      <li class="border-r border-white last:border-0 px-2">©{% year %}</li>
+      <li class="border-r border-white last:border-0 px-2">
+        <a href="/about/legal" class="link">Legal notices</a>
+      </li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,51 @@
+---
+title: Show your workings
+description: "Take a closer look at some of the projects I've worked on as a Front-End developer."
+keywords: 'Portfolio, Show me what you can do, case study, a selection of projects I have worked on, an example of my work, Front-End development, my work process, responsive first approach'
+opengraph:
+  image: 'img/social/og__work.jpg'
+eyebrow: Portfolio
+date: 2023-09-15
+lastmod: 2023-10-16
+hero:
+    dark: true
+    bg: 'bg-slate-900'
+    class: 'text-shadow-emboss shadow-black/25'
+    hidebreadcrumb: true
+permalink: /work/
+eleventyNavigation:
+  key: Work
+  order: 4
+---
+
+{% extends "layouts/listing.njk" %}
+{% block hero %}
+  {% hero { data: hero, overflow: true, wrapper: 'grid grid-cols-1 items-center overflow-x-hidden pb-[240px] min-h-square lg:min-h-block angleclip [&+*]:-mt-[240px]' } -%}
+  <div class="absolute inset-0 h-full w-full">
+    {% imageArtDirection { src: './work/inflated-half--slate--cr.webp', detailSrc: './work/inflated-half--slate--tc@sm.webp', alt: 'Inflated abstract background', widths: [720, 1280, 'auto'], sizes: '100vw', detailMedia: '(max-width: 767px)', classlist: 'object-cover object-top md:object-center w-full h-full', loading: 'eager' } %}
+  </div>
+  <!-- content -->
+  <div class="grid relative grid-cols-1 md:grid-cols-block50 gap-4 md:gap-8 max-w-container mx-auto py-[var(--smheaderheight)] md:py-[var(--headerheight)]">
+    <div class="self-center w-full"
+         x-cloak
+         :class="shown ? 'animate-fade-in-down' : 'invisible'">
+      <h1 id="headline"
+          class="text-5xl/tight lg:text-7xl/none relative text-shadow-headline">
+        <span class="text-[0.33em]/none font-semibold -rotate-1 bg-sky-400 p-[3px] rounded inline-block tracking-normal">{{ eyebrow }}</span>
+        <span class="block">{{ title }}</span>
+      </h1>
+      {% set postslistCounter = collections['case study'] | length -%}
+      <div class="max-w-prose mt-4 md:mt-6">
+        <p class="text-lg ">
+          Explore a selection of projects I have worked on. There are currently <strong class="whitespace-nowrap">{{ postslistCounter }} projects</strong> in the collection.
+        </p>
+      </div>
+    </div>
+  </div>
+  <!-- end content -->
+{% endhero %}
+{% endblock hero -%}
+{% block content %}
+  {% set postslist = collections['case study'] %}
+  {% include "partials/posts--featured.njk" %}
+{% endblock content -%}

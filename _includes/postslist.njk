@@ -1,0 +1,49 @@
+{#- <ol reversed class="postlist" style="counter-reset: start-from {{ (postslistCounter or postslist.length) + 1 }}">
+{% for post in postslist | reverse %}
+  <li class="postlist-item{% if post.url == url %} postlist-item-active{% endif %}">
+    <a href="{{ post.url | url }}" class="postlist-link">{% if post.data.title %}{{ post.data.title | safe }}{% else %}<code>{{ post.url }}</code>{% endif %}</a>
+    <time class="postlist-date" datetime="{{ post.date | htmlDateString }}">{{ post.date | readableDate }}</time>
+    {% for tag in post.data.tags | filterTagList %}
+      {% set tagUrl %}/tags/{{ tag | slugify }}/{% endset %}
+      <a href="{{ tagUrl | url }}" class="post-tag">{{ tag }}</a>
+    {% endfor %}
+  </li>
+{% endfor %}
+</ol> -#}
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 my-8">
+  {% for post in postslist | reverse %}
+    <div>
+      <a href="{{ post.url }}"
+         class="flex flex-col h-full bg-white rounded shadow-md hover:shadow-lg relative smooth mb-4 no-underline hover:no-underline">
+        <div class="pb-widescreen bg-white block relative overflow-hidden shadow-lg rounded-t">
+          {% if post.data.img %}
+            <img data-object-fit="cover"
+                 class="absolute inset-0 object-cover h-full w-full m-0"
+                 src="{{ post.data.img }}">
+          {% endif %}
+        </div>
+        <div class="grow p-6">
+          {% if post.data.category %}<p class="text-gray-600 text-xs md:text-sm">{{ post.data.category }}</p>{% endif %}
+          {% if post.data.title %}<h1 class="text-2xl font-headline font-bold">{{ post.data.title | safe }}</h1>{% endif %}
+          {% if post.data.excerpt %}<p>{{ post.data.excerpt | safe }}</p>{% endif %}
+          <div class="flex flex-wrap text-xs uppercase mt-3">
+            {% for tag in post.data.tags | filterTagList %}
+              {% set tagUrl %}
+                /tags/{{ tag | slugify }}/
+              {% endset %}
+              <span class="mr-1 rounded bg-gray-200 py-1 px-1 leading-none">{{ tag }}</span>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="flex justify-between items-end px-6 pb-6">
+          <img class="w-8 h-8 rounded-full mr-4"
+               src="/img/profile--bw.jpg"
+               alt="Avatar of Author">
+          {% if post.data.readtime %}
+            <p class="text-gray-600 text-xs md:text-sm">{{ post.data.readtime }} MIN READ</p>
+          {% endif %}
+        </div>
+      </a>
+    </div>
+  {% endfor %}
+</div>

@@ -1,0 +1,18 @@
+{
+  "extends": [
+    "airbnb-base",
+    "prettier"
+  ],
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "ignorePatterns": ["tagmanager.js"],
+  "rules": {
+    "global-require": "off",
+    "import/no-extraneous-dependencies": "off",
+    "no-unused-vars": ["error", { 
+      "varsIgnorePattern": "[sS]wiper || animateCSS",
+      "argsIgnorePattern": "[theme]"}]
+  }
+}

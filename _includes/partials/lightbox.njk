@@ -1,0 +1,25 @@
+<section {% if gallery.id %}id="{{ gallery.id }}"{% else %}id="lightbox"{% endif %}
+         class="lightbox relative bg-gray-50 {{ utilities.tramline.all }} {{ utilities.margin.y }} {% if gallery.breakout %} {{ utilities.breakout }} {% else %} {{ utilities.pull.x }} {% endif %}"
+         x-data="{ shown: false }"
+         x-intersect.threshold.25="shown = true">
+  {#- Gallery set with filename json file #} {# djlint:off #}
+  <div class="flex flex-col md:flex-row justify-between md:items-center">
+   
+## {{ gallery.title }}
+
+  <div class="transform pointer-events-none" :class="shown ? 'animate-fade-out-delay' : 'invisible'">
+    Tap to zoom any image <i class="fa-solid fa-eye"></i>
+  </div>
+  </div>
+
+  {{ gallery.context }}
+  {# djlint:on #}
+  <div class="not-prose grid grid-flow-dense grid-cols-3 md:grid-cols-4 auto-rows-[100px] md:auto-rows-[160px] gap-4 md:gap-8 bg-gray-50 ">
+    {%- for image in gallery.data %}
+      <div {% if image.class %}class="{{ image.class }}"{% endif %}>
+        {% set my_src = assets.folder + '/' + image.image -%}
+        {% lightbox {src:my_src, alt: image.title, caption: image.caption } %}
+      </div>
+    {%- endfor %}
+  </div>
+</section>

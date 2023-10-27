@@ -1,0 +1,85 @@
+{% set layoutRef = "post" %}
+{%- import "macros/components.njk" as macro with context -%}
+{% extends "layouts/base.njk" %}
+{% block main %}
+  {% if img %}
+    <div class="grid grid-cols-1 lg:grid-cols-work conpad:grid-cols-workcontainer w-full  relative">
+      <div class="relative h-widescreen lg:min-h-screen">
+        <picture>
+          {% if img.hd %}
+            <source srcset="{{ img.hd | safe }}" media="(min-width: 600px)">
+          {% endif -%}
+          <img src="{{ img.sm | safe }}"
+               class="object-cover w-full h-full absolute inset-0"
+               alt="background"
+               height="auto"
+               width="auto">
+        </picture>
+        {% if img.credit %}
+          <div class="credit bottom-16" x-data="credit">
+            <button class="credit__icon"
+                    @click="toggle"
+                    :aria-expanded="open ? 'true' : 'false'">
+              <i class="fa-regular fa-image" aria-hidden="true"></i>
+              <span class="sr-only">Show image credit</span>
+            </button>
+            <div class="credit__text " x-cloak x-transition x-show="open">Credit: {{ img.credit }}</div>
+          </div>
+        {% endif %}
+      </div>
+      <div class="self-end px-4 md:px-8 pb-16 conpad:pr-0">
+        <h1 class="heading text-3xl lg:text-5xl mb-8">{{ title }}</h1>
+        <p>{{ taster }}</p>
+        <p class="flex flex-wrap items-center gap-2 w-full text-xs uppercase mt-4 leading-none">
+          {%- for tag in tags | filterTagList %}
+            {%- set tagUrl %}/tags/{{ tag | slugify }}/
+            {% endset %}
+            {% include "partials/tag.njk" %}
+          {%- endfor %}
+        </p>
+      <a href="#headline"
+         class="flex flex-col gap-y-1 absolute left-1/2 -translate-x-1/2 bottom-4 md:bottom-10 font-medium text-white transform duration-300 text-shadow-heavy shadow-black/50 hover:shadow-black/95 text-center backdrop-blur-xl backdrop-opacity-25 rounded-full p-4 md:p-8">Scroll <i class="fa-regular fa-circle-down animate-bounce"></i>
+    </a>
+  </div>
+</div>
+{%- endif %}
+<div class="max-w-container mx-auto {{ utilities.headergap if not img }}">
+  {% include "partials/breadcrumb.njk" %}
+  <main id="main-content" class="{{ utilities.tramline.double.y }}">
+    <article class="max-w-3xl mx-auto">
+      <h1 id="headline"
+          class="heading text-3xl lg:text-7xl text-center relative {{ utilities.tramline.double.b }}">{{ title }}</h1>
+      {%- if tags %}
+        <p class="my-8 flex flex-wrap gap-2 lg:gap-4 items-center justify-center leading-none">
+          {%- for tag in tags | filterTagList %}
+            {%- set tagUrl %}/tags/{{ tag | slugify }}/
+            {% endset %}
+            {# <a href="{{ tagUrl | url }}" class="rounded bg-brand p-1 inline-block hover:bg-slate-900 hover:text-white">{{ tag }}</a> #}
+            {% include "partials/tag.njk" %}
+          {%- endfor %}
+        </p>
+      {%- endif %}
+      <div class="max-w-none prose lg:prose-lg mx-auto">
+        {% block content %}
+          {{ content | safe }}
+        {% endblock -%}
+      </div>
+      <aside class="w-full py-4 md:py-8 mt-4 md:mt-8">
+        <p>
+          Last updated <time class="bg-neutral-100 rounded inline-block px-2"
+       datetime="{{ page.date | htmlDateString }}">{{ page.date | readableDate }}</time>
+        </p>
+        <p class="flex flex-wrap not-prose items-center gap-2 w-full text-xs uppercase mt-4 leading-none">
+          {%- for tag in tags | filterTagList %}
+            {%- set tagUrl %}/tags/{{ tag | slugify }}/
+            {% endset %}
+            {% include "partials/tag.njk" %}
+          {%- endfor %}
+        </p>
+      </aside>
+    </article>
+    {%- displaycapture "postContent" %}
+  </main>
+  {% include "partials/nextprev.njk" %}
+</div>
+{% endblock -%}

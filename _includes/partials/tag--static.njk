@@ -1,0 +1,4 @@
+<a href="{{ tagUrl | url }}" class="rounded border-gray-200/50 border py-1 px-1 leading-none whitespace-nowrap hover:border-accent hover:bg-accent hover:text-white">
+  {% if tag == 'featured' -%}
+    <i class="fa-solid fa-star text-yellow-500"></i>
+  {% endif -%}{{ tag }}</a>

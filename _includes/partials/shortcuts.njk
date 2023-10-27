@@ -1,0 +1,31 @@
+{# Back to top -#}
+<div class="fixed flex flex-col space-y-2 items-center bottom-16 right-4 md:right-8 z-shortcuts">
+  <a id="pagetop"
+     x-ref="pagetop"
+     x-cloak
+     :class="pageTop ? '' : 'translate-y-12 md:translate-y-0 md:translate-x-16'"
+     href="#top"
+     aria-hidden="true"
+     class=" scroll transition duration-700 flex items-center justify-center rounded-full shadow-floated bg-accent  w-8 h-8 text-white focus:ring-2 focus:outline-none focus:shadow-outline">
+    <svg xmlns="http://www.w3.org/2000/svg"
+         class="h-6 w-6 rotate-90"
+         fill="none"
+         viewBox="0 0 24 24"
+         stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+    </svg>
+  </a>
+  <button class="md:hidden relative flex flex-col h-16 w-16 justify-center items-center group rounded-full shadow-floated  bg-accent text-white focus:ring-2 focus:outline-none focus:shadow-outline"
+          name="hamburger"
+          type="button"
+          x-data="hamburger"
+          x-ref="button"
+          @click="toggle()">
+    <span :class="smNavOpen ? 'rotate-45 translate-y-2' : ''"
+          class="h-1 w-6 my-0.5 rounded-full bg-white transition ease transform duration-300"></span>
+    <span :class="smNavOpen ? 'opacity-0' : ''"
+          class="h-1 w-6 my-0.5 rounded-full bg-white transition ease transform duration-300"></span>
+    <span :class="smNavOpen ? '-rotate-45 -translate-y-2' : ''"
+          class="h-1 w-6 my-0.5 rounded-full bg-white transition ease transform duration-300"></span>
+  </button>
+</div>

@@ -1,0 +1,20 @@
+{% set layoutRef = "page" %}
+{%- import "macros/components.njk" as macro with context -%}
+{% extends "layouts/base.njk" %}
+{% block main %}
+  {% block hero %}
+    {# default | can be replaced with hero set in page content -#}
+    {{ macro.herotitle(hero) }}
+  {% endblock hero -%}
+  <div class="max-w-container mx-auto relative {{ 'post-angleclip' if hero.clipped }}">
+    <main id="main-content" class="{{ utilities.tramline.double.y }}">
+      <div class="max-w-3xl mx-auto">
+        <div class="max-w-none rte prose lg:prose-lg mx-auto">
+          {% block content %}
+            {{ content | safe }}
+          {% endblock -%}
+        </div>
+      </div>
+    </main>
+  </div>
+{% endblock -%}

@@ -1,0 +1,31 @@
+<div class="swiper swiper--home group w-full h-full">
+  <div class="swiper-wrapper items-center">
+    {%- asyncEach slide in slider %}{# djlint:off #}
+    <div class="slide swiper-slide">
+      {% set class = slide.class|default("absolute inset-0 max-w-full max-h-full w-full h-full object-center object-scale-down", true) %}
+      {% if slide.link -%}
+        <a href="{{ slide.link | safe }}" class="flex w-full h-full items-center justify-center">
+      {% else -%}
+        <div class="flex w-full h-full items-center justify-center ">
+      {% endif -%}
+      {%- if slide.wrapper -%}
+          <div class="{{ slide.wrapper }}  ">
+      {%- endif %}
+          {% image { src: slide.img, alt: slide.alt, widths:[320, 480, 576, 1152], sizes:'(max-width: 48em) calc(100vw - 2rem), (max-width: 64em) calc(100vw - var(--headerheight)), 768px', classlist: class, loading: 'eager' } %}
+        {%- if slide.wrapper %}
+          </div>
+        {%- endif %}
+      {% if slide.link -%}
+        </a>
+      {% else -%}
+        </div>
+      {% endif -%}
+    </div>
+    {% endeach %}{# djlint:on #}
+  </div>
+  <div class="swiper-button-prev swiper--home__prev opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+  </div>
+  <div class="swiper-button-next swiper--home__next opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+  </div>
+  <div class="swiper--home__pagination text-right mx-auto absolute z-10"></div>
+</div>

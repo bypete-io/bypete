@@ -1,0 +1,15 @@
+---
+title: tags
+permalink: /tags/
+date: Last Modified
+layout: layouts/listing.njk
+---
+
+<div class="mx-auto max-w-prose flex flex-wrap gap-4">
+  {%- for tag in collections.all | getAllTags | filterTagList %}
+    {%- set tagUrl %}/tags/{{ tag | slugify }}/
+    {% endset %}
+    <a href="{{ tagUrl | url }}"
+       class="mr-1 rounded bg-brand px-2 inline-block hover:bg-slate-900 hover:text-white">{{ tag }}</a>
+  {%- endfor %}
+</div>

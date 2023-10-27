@@ -1,0 +1,12 @@
+{% set layoutRef = "home" %}
+{%- import "macros/components.njk" as macro with context -%}
+{% extends "layouts/base.njk" %}
+{% block main %}
+  <main id="main-content">
+    {% block hero %}
+    {% endblock hero -%}
+    {% block content %}
+      {{ content | safe }}
+    {% endblock -%}
+  </main>
+{% endblock -%}

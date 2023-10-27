@@ -1,0 +1,28 @@
+{%- if collections.posts %}
+  {%- set nextPost = collections.posts | getNextCollectionItem(page) %}
+  {%- set previousPost = collections.posts | getPreviousCollectionItem(page) %}
+  {%- if nextPost or previousPost %}
+    <aside class="border-t border-gray-200 mx-auto py-4 md:py-8 mt-4 md:mt-8">
+      <ul class="flex justify-between flex-row-reverse gap-8">
+        {%- if nextPost %}
+          <li>
+            <span class="sr-only ">Next:</span>
+            <a href="{{ nextPost.url | url }}"
+               class="link inline-flex justify-end items-center gap-1">{{ nextPost.data.title | safe }}
+              {% include "svg/arrow-narrow-right.njk" %}
+            </a>
+          </li>
+        {%- endif %}
+        {%- if previousPost %}
+          <li class="inline-flex justify-end items-center">
+            <span class="sr-only ">Previous:</span>
+            <a href="{{ previousPost.url | url }}"
+               class="link inline-flex justify-end items-center gap-1">
+              {% include "svg/arrow-narrow-left.njk" %}
+            {{ previousPost.data.title | safe }}</a>
+          </li>
+        {%- endif %}
+      </ul>
+    </aside>
+  {%- endif -%}
+{%- endif %}

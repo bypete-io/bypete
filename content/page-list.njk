@@ -1,0 +1,32 @@
+---
+title: Site content
+pagination:
+  data: collections.all
+  size: 20
+  alias: entries
+date: 2023-10-01
+lastmod: 2023-10-17
+layout: layouts/listing.njk
+permalink: /page-list/{% if pagination.pageNumber > 0 %}{{ pagination.pageNumber }}/{% endif %}
+---
+
+<table class="table w-full">
+  <thead>
+    <tr>
+      <th>URL</th>
+      <th>Page Title</th>
+    </tr>
+  </thead>
+  <tbody>
+    {%- for entry in entries %}
+      <tr>
+        <td>
+          <a href="{{ entry.url }}" class="link">
+            <code>{{ entry.url }}</code>
+          </a>
+        </td>
+        <td>{{ entry.data.title | safe }}</td>
+      </tr>
+    {%- endfor %}
+  </tbody>
+</table>

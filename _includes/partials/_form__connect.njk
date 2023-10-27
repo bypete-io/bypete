@@ -1,0 +1,63 @@
+<div x-data="validateme" class="no-prose">
+  <form x-ref="form"
+        x-on:submit.prevent="onSubmit()"
+        class="form rte-content"
+        accept-charset="UTF-8"
+        action="https://usebasin.com/f/64b35c1258c2"
+        method="post"
+        enctype="multipart/form-data">
+    <div class="group mt-4">
+      <label class="font-medium" for="InputName">Name</label>
+      <input type="text"
+             name="name"
+             class="form__input w-full"
+             id="InputName"
+             placeholder="Enter your name and surname"
+             data-pristine-required-message="Please add your name"
+             required="required">
+    </div>
+    <div class="group mt-4">
+      <label class="font-medium" for="InputEmail">Email address</label>
+      <div class="relative">
+        <input type="email"
+               name="email"
+               class="form__input w-full pr-10"
+               id="InputEmail"
+               placeholder="you@example.com"
+               data-pristine-required-message="Please add your email"
+               data-pristine-email-message="Please check your email address"
+               required>
+        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+          <svg xmlns="http://www.w3.org/2000/svg"
+               viewBox="0 0 24 24"
+               class="success-svg hidden group-[.has-success]:block h-5 w-5">
+            <circle cx="12" cy="12" r="10" class="text-green-200 fill-current"></circle>
+            <path d="M10 14.59l6.3-6.3a1 1 0 0 1 1.4 1.42l-7 7a1 1 0 0 1-1.4 0l-3-3a1 1 0 0 1 1.4-1.42l2.3 2.3z" class="text-green-600 fill-current">
+            </path>
+          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg"
+               viewBox="0 0 24 24"
+               class="error-svg hidden group-[.has-error]:block h-5 w-5">
+            <circle cx="12" cy="12" r="10" fill="#fed7d7"></circle>
+            <path fill="#f56565" d="M13.41 12l2.83 2.83a1 1 0 0 1-1.41 1.41L12 13.41l-2.83 2.83a1 1 0 1 1-1.41-1.41L10.59 12 7.76 9.17a1 1 0 0 1 1.41-1.41L12 10.59l2.83-2.83a1 1 0 0 1 1.41 1.41L13.41 12z">
+            </path>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div class="group mt-4">
+      <label class="font-medium" for="InputMessage" required="required">Your message</label>
+      <textarea rows="6"
+                cols="50"
+                name="message"
+                class="form__input w-full"
+                id="InputMessage"
+                placeholder="Add a message"
+                data-pristine-required-message="Don't forget to add your message..."
+                required></textarea>
+    </div>
+    <div class="mt-4">
+      <button type="submit" class="btn btn--primary">Send now</button>
+    </div>
+  </form>
+</div>

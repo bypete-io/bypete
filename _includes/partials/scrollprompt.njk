@@ -1,0 +1,9 @@
+<div x-data="{ scrolled: false }"
+     x-cloak
+     :class="scrolled ? 'opacity-0 transition delay-300 duration-300' : 'opacity-100'"
+     @scroll.window="scrolled = ( window.pageYOffset > 25 ) ? true : false">
+  <p class="m-0 flex gap-2 ">
+    <span>Scroll</span>
+    <i class="fa-regular fa-circle-down animate-nudge-down"></i>
+  </p>
+</div>

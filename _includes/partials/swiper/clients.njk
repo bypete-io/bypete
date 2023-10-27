@@ -1,0 +1,18 @@
+<div class="py-16 md:py-24">
+  <div class="relative max-w-container mx-auto">
+    <div class="swiper swiper--clients lg:py-4 lg:border-x-2 lg:border-gray-200 lg:rounded-lg">
+      <div class="swiper-wrapper items-center">
+        {% for logo in clients.logos %}
+          <div class="slide swiper-slide flex items-center justify-center px-4 lg:px-10">
+            <img src="{{ logo.image }}"
+                 class="max-h-10 lg:max-h-14 w-auto grayscale opacity-60 hover:opacity-100 hover:filter-none transition-all"
+                 height="{{ logo.height }}"
+                 width="{{ logo.width }}"
+                 alt="{{ logo.alt }}"
+                 loading="lazy">
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,119 @@
+---
+title: 'Homepage'
+description: 'Portfolio site of Pete Wallace, a Surrey based Front-End developer. See some examples of my work'
+opengraph:
+  image: 'img/social/og__home.jpg'
+date: 2023-10-01
+lastmod: 2023-10-17
+hero:
+  dark: true
+  bg: 'bg-slate-900'
+slider: 
+  - img: '/profile__cutout--circle.png'
+    alt: 'Headshot of Peter Wallace'
+    wrapper: 'rounded-full  aspect-square short:my-8 w-[20rem] h-[20rem] md:w-[30rem] md:h-[30rem] max-w-[calc(100vw-6rem)] max-h-[calc(100vw-6rem)] md:max-w-[calc(100svh-(var(--headerheight)*2))] md:max-h-[calc(100svh-(var(--headerheight)*2))] p-3 flex items-end justify-center bg-white bg-gradient-to-b from-white to-gray-200 drop-shadow-circle shadow-black/20'
+    class: 'w-full h-auto'
+    link: '/about/'
+  - img: '/homepage/slide__3mobile.png'
+    alt: '3 phones showing the myKRing app in use'
+    link: '/work/mykring-app'
+  - img: '/homepage/slide__laptop.png'
+    alt: 'laptop and mobile'
+    link: '/work/onepay'
+  - img: '/homepage/slide__2mobile.png'
+    alt: 'Two floating phones showing responsive websites'
+    link: '/work/onepay'
+  - img: '/homepage/slide__ipad.png'
+    alt: 'iPad mockup of twotw website'
+    link: '/work/twotw'
+---
+
+{% extends "layouts/home.njk" %}
+{% block hero %}
+  {% hero { data: hero, overflow: true, wrapper: 'grid grid-cols-1 items-center overflow-x-hidden pb-[240px] min-h-[calc(100svh+240px)] angleclip origin-top [&+*]:-mt-[240px]' } -%}
+  <div class="absolute inset-0 h-full w-full">
+    {% imageArtDirection { src: '/hero/heatmap--r.webp', detailSrc: '/hero/heatmap--b@sm.webp', alt: 'Purple heatmap background', widths: [720, 1280, 'auto'], sizes: '100vw', detailMedia: '(max-width: 767px)', classlist: 'object-cover object-bottom md:object-center w-full h-full', loading: 'eager' } %}
+  </div>
+  <img src="/img/details/contour__heatmap--mr.svg"
+       class="fixed inset-0 object-cover w-full h-full"
+       width="1920"
+       height="1080"
+       alt="countour lines">
+  <div class="grid grid-cols-1 grid-rows-home lg:grid-rows-1 lg:grid-flow-col w-full h-full relative  lg:grid-cols-block50 xl:grid-cols-block40 pt-[var(--smheaderheight)] md:py-[calc(var(--headerheight)*0.5)] 2xl:py-[var(--headerheight)] gap-4 md:gap-8 lg:gap-0 max-w-container mx-auto lg:h-screen">
+    <!-- content -->
+    <div class="grid grid-cols-1 md:pt-6 lg:pt-0 lg:grid-rows-2 rte-content lg:max-w-[60ch] w-full gap-4 md:gap-8">
+      <div class="lg:self-end" x-data="roles()">
+        <h1 class="font-headline text-2xl lg:text-3xl 2xl:text-[2.125rem]">
+          <span class="text-white text-shadow-emboss shadow-black/40 block mb-2">I like to <span x-text="preposition" class="text-brand">work on</span></span>
+          <span class="inline-block relative duration-150  text-black mix-blend-screen rounded-tight bg-white py-1 px-2 lg:py-1.5 lg:px-3"
+                x-cloak>
+            <span x-text="role">Ui</span><span class="animate-blink font-normal" x-text="(caret ? '|' : '')"></span>
+          </span>
+        </h1>
+      </div>
+      <div class="text-shadow-emboss shadow-slate-900 text-white">
+        <p class="text-lg mb-4">This space has been crafted to demonstrate my abilities, methods, and expertise.</p>
+        <p class="flex flex-wrap items-center gap-4 text-shadow-none">
+          <a href="/work" class="btn btn--primary btn--icon group">View some work
+            <svg xmlns="http://www.w3.org/2000/svg"
+                 viewBox="0 0 24 24"
+                 fill="currentColor"
+                 class="w-6 h-6 group-hover:animate-nudge-right">
+              <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm4.28 10.28a.75.75 0 000-1.06l-3-3a.75.75 0 10-1.06 1.06l1.72 1.72H8.25a.75.75 0 000 1.5h5.69l-1.72 1.72a.75.75 0 101.06 1.06l3-3z" clip-rule="evenodd" />
+            </svg>
+          </a>
+          <a href="/about" class="btn btn--outline">Read my bio</a>
+        </p>
+      </div>
+    </div>
+    <!-- end content -->
+    <!-- image options [default]: [items-center] items-start items-end items-stretch -->
+    <div class="flex items-center justify-center relative min-w-0 min-h-0 ">
+      <div class="absolute scale-105 aspect-1 w-full ">
+        <div class="absolute border border-white/25 w-full h-full animate-morph-delay"></div>
+        <div class="absolute  bg-slate-900/5 w-full h-full animate-morph"></div>
+      </div>
+      {% include "partials/swiper/home.njk" %}
+    </div>
+  </div>
+  <div class="absolute pointer-events-none top-screenSvh -translate-y-full z-shortcuts -translate-x-1/2 pb-4 md:pb-8 left-1/2 ">
+    {% include "partials/scrollprompt.njk" %}
+  </div>
+{% endhero %}
+{% endblock hero -%}
+{% block content %}
+  <section class="bg-putty bg-gradient-to-b from-white pb-4 md:pb-8"
+           x-data="{ section: false }"
+           x-intersect.threshold.10="section = true">
+    <div class="max-w-container relative mx-auto">
+      <h2 class="font-headline font-bold tracking-tight text-3xl md:text-4xl mt-8 text-center text-white text-shadow-emboss shadow-slate-900"
+          x-cloak
+          :class="section ? 'animate-fade-in-up' : 'invisible'">Featured work</h2>
+      {% set postslist = collections['case study'] | head(-5) %}
+      {% set postslistCounter = collections.posts | length -%}
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 my-8 lg:gap-10 lg:my-10"
+           x-cloak>
+        {% include "partials/posts--grid.njk" %}
+        {# Last item is a link to the archive #}
+        <div class="self-center p-6 rte rte-content">
+          <i class="fa-solid fa-box-archive text-gray-400 text-2xl"></i>
+          <h2 class="font-headline">Want to see more...?</h2>
+          <p>
+            A complete list of case studies can be found in the <strong>Work</strong> section.
+          </p>
+          <p>
+            <a href="{{ '/work' | url }}" class="btn btn--primary btn--icon">Explore the archive
+              <svg xmlns="http://www.w3.org/2000/svg"
+                   viewBox="0 0 24 24"
+                   fill="currentColor"
+                   class="w-6 h-6">
+                <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm4.28 10.28a.75.75 0 000-1.06l-3-3a.75.75 0 10-1.06 1.06l1.72 1.72H8.25a.75.75 0 000 1.5h5.69l-1.72 1.72a.75.75 0 101.06 1.06l3-3z" clip-rule="evenodd" />
+              </svg>
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+  {% include "partials/swiper/clients.njk" %}
+{% endblock content -%}
