@@ -2,7 +2,6 @@
   {% for post in postslist | reverse %}
     <article class="grid grid-cols-1 md:grid-cols-listing grid-areas-listing md:grid-areas-listingwide gap-4 md:gap-8 py-8 first:pt-0 last:pb-0">
       <div class="self-center grid-in-image">
-        {%- set sm = post.data.img.sm %}
         {% if post.data.img %}
           <a href="{{ post.url | url }}"
              class="relative w-full block pb-widescreen lg:pb-tv">

@@ -1,16 +1,3 @@
-{% macro navlinks(params) %}
-  {%- for item in params %}
-    <li>
-      <a href="{{ item.url }}" {{ helpers.getLinkActiveState(item.url, page.url) | safe }} class="flex items-center px-1.5 md:px-2 py-2 hover:bg-slate-800 rounded-md">
-        <img src="{{ item.icon }}"
-             class="w-6 md:w-8 h-auto mr-2"
-             alt=""
-             height="auto"
-             width="auto">
-      {{ item.text }}</a>
-    </li>
-  {%- endfor -%}
-{% endmacro %}
 {% macro herotitle(params) %}
   <div id="hero"
        class="max-w-container mx-auto pt-[var(--smheaderheight)] md:pt-[var(--headerheight)]">
@@ -21,376 +8,37 @@
     </h1>
   </div>
 {% endmacro %}
-{% macro hero(hero, overflow = '', class='bg-white min-h-photo md:min-h-33vw xl:min-h-block pt-[var(--smheaderheight)] md:pt-[var(--headerheight)]') %}
-  <div id="hero"
-       class="w-full relative {{ class }} grid grid-cols-1 grid-rows-hero justify-start  outline-none  {% if overflow %}overflow-hidden{% endif %} {% if hero.bg %}{{ hero.bg }}{% endif %} {{ 'text-white' if hero.dark }} {{ class }} outline-none"
-       x-data="{ shown: false }"
-       x-intersect.threshold.25="shown = true">
-    <!-- background -->
-    {% if hero.img -%}
-      {%- set sm = hero.img.sm %}
-      {% set lg = hero.img.lg -%}
-      <!-- options [default]: [min-h-spread], min-h-widescreen -->
-      <div class="{{ 'h-super16 md:h-full md:absolute md:inset-0' if params.SMBlockImgRelative else 'absolute inset-0 h-full' }} w-full">
-        <picture>
-          {% if lg -%}
-            <source srcset="{{ lg.img | safe }}"
-                    width="{{ lg.width }}"
-                    height="{{ lg.height }}"
-                    media="(min-width: 600px)">
-          {% endif -%}
-          <img src="{{ sm.img or lg.img | safe }}"
-               class="object-cover {{ sm.position }} {{ lg.position }} w-full h-full"
-               width="{{ sm.width }}"
-               height="{{ sm.height }}"
-               alt="background">
-        </picture>
-      </div>
-    {% endif %}
-    {{ caller() }}
-  </div>
-  {% if not hero.hidebreadcrumb -%}
-    <div class="max-w-container mx-auto relative">{% include "partials/breadcrumb.njk" %}</div>
-  {%- endif %}
-{% endmacro %}
-{# https://mozilla.github.io/nunjucks/templating.html#call #}
-{% macro block(params) %}
-  <div class="not-prose {{ params.class }} {{ utilities.breakout if params.breakout else 'w-full' }} relative {% if params.overflow %}overflow-hidden{% endif %} {% if params.bgcolor %}{{ params.bgcolor }}{% endif %} "
-       x-data="{ shown: false }"
-       x-intersect.threshold.25="shown = true">
-    <!-- background -->
-    {% if params.bghd -%}
-      <div class="w-full {{ 'h-super16 md:h-full md:absolute md:inset-0' if params.bgrelative else 'absolute inset-0 h-full' }} {{ params.bg }}">
-        <picture>
-          <source srcset="{{ params.bghd | safe }}" media="(min-width: 600px)">
-          {% if params.bgsm -%}
-            <img src="{{ params.bgsm | safe }}"
-                 height="auto"
-                 width="auto"
-                 class="object-cover w-full h-full"
-                 alt="background">
-          {%- else -%}
-            <img src="{{ params.bghd | safe }}"
-                 height="auto"
-                 width="auto"
-                 class="object-cover w-full h-full"
-                 alt="background">
-          {% endif -%}
-        </picture>
-      </div>
-    {% endif -%}
-    {# Content -#}
-    <div class="{{ params.area }} {{ params.grid }} ">{{ caller() }}</div>
-    {# Image -#}
-  </div>
-{% endmacro -%}
-{% macro trail(data) %}
-  {# Note: use negative translate and then pull up next element with negative bottom margin. #}
-  <nav class="w-full -translate-y-8 md:-translate-y-10 -mb-8 md:-mb-10"
-       aria-label="Breadcrumb">
-    <ol class="flex items-center text-sm h-8 md:h-10 whitespace-nowrap min-w-0">
-      {% for crumb in breadcrumbs %}
-        {% if not loop.last %}
-          <li class="flex items-center">
-            {% if crumb.url %}
-              <a href="{{ crumb.url }}" class="whitespace-nowrap">{{ crumb.text }}</a>
-            {% else %}
-              {{ crumb.text }}
-            {% endif %}
-            <svg xmlns="http://www.w3.org/2000/svg"
-                 class="h-5 w-5 mx-2 text-slate-400"
-                 viewBox="0 0 20 20"
-                 fill="currentColor">
-              <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-            </svg>
-          </li>
-        {% else %}
-          <li class="font-semibold text-slate-900 truncate ">{{ crumb.text }}</li>
-        {% endif %}
-      {% endfor %}
-    </ol>
-  </nav>
-{% endmacro %}
-{% macro foo(data) %}
-  <a href="{{ data.buttonUrl }}">
-    <img src="{{ data.image }}"
-         height="auto"
-         width="auto"
-         alt="{{ data.imageAlt }}">
-  </a>
-{% endmacro %}
-{% macro feedback(data) %}
-  {% if data.result == 'success' %}
-    {% set accentborder = "border-green-500" %}
-    {% set accenttext = "text-green-500" %}
-    {% set icon = "fa-solid fa-circle-check" %}
-  {% elseif data.result == 'error' %}
-    {% set accentborder = "border-red-500" %}
-    {% set accenttext = "text-red-500" %}
-    {% set icon = "fa-solid fa-circle-exclamation" %}
-  {% elseif data.result == 'warning' %}
-    {% set accentborder = "border-amber-500" %}
-    {% set accenttext = "text-amber-500" %}
-    {% set icon = "fa-solid fa-triangle-exclamation" %}
-  {% elseif data.result == 'info' %}
-    {% set accentborder = "border-blue-500" %}
-    {% set accenttext = "text-blue-500" %}
-    {% set icon = "fa-solid fa-circle-info" %}
-  {% endif %}
-  {% if data.inline %}
-    <div class="notice border-l-4 {{ accentborder }} bg-white rounded-t-md rounded-b p-3 inline-flex items-center shadow-md w-full">
-      <div class="flex">
-        <i class="{{ icon }} mr-3 text-iconSm  {{ accenttext }} flex-shrink-0"
-           aria="{{ data.result }}"></i>
-        <div class="result__copy">
-          {% if data.title %}<div class="font-semibold mb-1">{{ data.title }}</div>{% endif %}
-          <div class="text-sm  rte-content">{{ data.copy | safe }}</div>
-        </div>
-      </div>
-      {%- if data.ctas -%}
-        <div class="flex-shrink ml-3">
-          {% for button in data.ctas %}<a href="{{ button.url }}" class="{{ button.class }}">{{ button.text }}</a>{% endfor %}
-        </div>
-      {%- endif -%}
-    </div>
-  {% else %}
-    {# <div class="result border-t-4 md:border-0 {{accentborder}}"> #}
-    <div class="result ">
-      <div class="flex w-full md:flex-col md:text-center">
-        <i class="{{ icon }} mr-3 md:mr-0 md:mb-4 text-iconSm md:text-iconMd lg:text-iconXl {{ accenttext }} flex-shrink-0"
-           aria="{{ data.result }}"></i>
-        <div class="result__copy w-full min-w-0 rte-content">
-          {% if data.title %}
-            <h2 class="font-semibold text-lg md:text-xl leading-iconSm md:leading-normal mb-1 md:mb-2">{{ data.title }}</h2>
-          {% endif %}
-          <div class="text-sm md:text-base">{{ data.copy | safe }}</div>
-        </div>
-      </div>
-      {%- if data.ctas -%}
-        <div class="self-stretch border-t border-gray-200 pt-3 mt-3 md:mt-4 md:pt-4 -mx-4  lg:-mx-8 ">
-          <div class="flex justify-evenly ">
-            {%- if data.cancel -%}
-              <button @click="{{ data.id }} = false" class="btn btn--quiet">Cancel</button>
-            {%- endif -%}
-            {% for button in data.ctas %}
-              <a href="{{ button.url }}" class="btn {{ button.class }}">{{ button.text }}</a>
-            {% endfor %}
-          </div>
-        </div>
-      {%- endif -%}
-    </div>
-  {% endif %}
-{% endmacro %}
-{% macro modal(data) %}
-  {% if data.result == 'success' %}
-    {% set accentborder = "border-green-500" %}
-    {% set accenttext = "text-green-500" %}
-    {% set icon = "fa-solid fa-circle-check" %}
-  {% elseif data.result == 'error' %}
-    {% set accentborder = "border-red-500" %}
-    {% set accenttext = "text-red-500" %}
-    {% set icon = "fa-solid fa-circle-exclamation" %}
-  {% elseif data.result == 'warning' %}
-    {% set accentborder = "border-amber-500" %}
-    {% set accenttext = "text-amber-500" %}
-    {% set icon = "fa-solid fa-triangle-exclamation" %}
-  {% elseif data.result == 'info' %}
-    {% set accentborder = "border-blue-500" %}
-    {% set accenttext = "text-blue-500" %}
-    {% set icon = "fa-solid fa-circle-info" %}
-  {% endif %}
-  <div class="fixed inset-0 z-30 flex items-center justify-center overflow-auto bg-slate-800 bg-opacity-95" x-show="{{ data.id }}" x-data="{ '{{ data.id }}': {{ data.open }} }" @keydown.escape="{{ data.id }} = false" @open-{{ data.id }}.window="{{ data.id }}=true">
-    <!-- Modal inner -->
-    <div class="flex flex-col md:max-w-md md:max-h-100 overflow-y-auto w-full h-full px-3 md:px-4 py-4 mx-auto bg-white md:rounded md:shadow-lg"
-         @click.away="{{ data.id }} = false"
-         id="{{ data.id }}"
-         x-show="{{ data.id }}"
-         x-transition:enter="transition ease-out duration-300"
-         x-transition:enter-start="opacity-0 scale-90"
-         x-transition:enter-end="opacity-100 scale-100">
-      <!-- Title / Close-->
-      <button type="button"
-              class="z-50 cursor-pointer self-end"
-              @click="{{ data.id }} = false">
-        <svg xmlns="http://www.w3.org/2000/svg"
-             width="24"
-             height="24"
-             viewBox="0 0 24 24"
-             fill="none"
-             stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-        </svg>
-      </button>
-      <!-- content -->
-      <div class="flex flex-col grow justify-center">
-        <div class="flex flex-col grow justify-center items-center text-center">
-          {% if data.result %}
-            <i class="{{ icon }} mr-3 md:mr-0 md:mb-4 text-iconSm md:text-iconMd lg:text-iconXl {{ accenttext }} flex-shrink-0"
-               aria="{{ data.result }}"></i>
-          {% endif %}
-          {% if data.title %}
-            <h2 class="font-semibold text-lg md:text-xl leading-iconSm md:leading-normal mb-1 md:mb-2">{{ data.title }}</h2>
-          {% endif %}
-          <div class="text-sm md:text-base">{{ caller() }}</div>
-        </div>
-        {%- if data.ctas -%}
-          <div class="self-stretch border-t border-gray-200 pt-3 mt-3 md:mt-4 md:pt-4 -mx-3  md:-mx-4 ">
-            <div class="flex justify-evenly ">
-              {%- if data.cancel -%}
-                <button @click="{{ data.id }} = false" class="btn btn--quiet">Cancel</button>
-              {%- endif -%}
-              {% for button in data.ctas %}
-                <a href="{{ button.url }}" class="btn {{ button.class }}">{{ button.text }}</a>
-              {% endfor %}
-            </div>
-          </div>
-        {%- endif -%}
-      </div>
-    </div>
-  </div>
-  <!-- END Modal -->
-{% endmacro %}
-{# Forms #}
-{% macro field(name, id = '', label = '', hidelabel = '', value = '', type = 'text', placeholder = '', readonly = '', class = '') %}
-  <label for="{{ id }}" {% if hidelabel %}class="sr-only"{% endif %}>{{ label }}</label>
-  <input id="{{ id }}" class="form__input {{ class if class else 'w-full' }} {{ 'readonly' if readonly }} {{ 'error' if validation }} {{ class }}" type="{{ type }}" name="{{ name }}" value="{{ value | escape }}" placeholder="{{ placeholder }}" {{ 'readonly' if readonly }} />
-{% endmacro %}
-{% macro notes(data) %}
-  <div class="text-sm leading-note">
-    {% if data.note %}
-      <div class="note--{{ data.note }} mt-2">
-        <p>{{ data.content }}</p>
-      </div>
-    {% endif %}
-    {% if validation %}<span class="note--error mt-2">{{ data.error }}</span>{% endif %}
-  </div>
-{% endmacro %}
-{% macro switch(name, id='', label='', checked='') %}
-  <label for="{{ id }}" class="switch justify-between">
-    {% if label %}<span class="switch__label ">{{ label }}</span>{% endif %}
-    <input type="checkbox" id="{{ id }}" class="sr-only" {{ 'checked' if checked }}>
-    <div class="switch__bg"></div>
-  </label>
-{% endmacro %}
-{# Headings #}
-{% macro heading(text, align = '') %}
-  <h2 class="heading divider {{ align }}">{{ text }}</h2>
-{% endmacro %}
-{# Store #}
-{% macro steps(data) %}
-  <div class="mb-8">
-    <h2 class="sr-only">Steps</h2>
-    <div class="relative after:inset-x-0 after:h-0.5 after:absolute after:top-3 after:block after:rounded-lg after:bg-gray-100">
-      <ol class="relative z-10 flex justify-between text-sm font-medium text-gray-500">
-        {% for step, name in data.steps %}
-          <li class="flex flex-col items-center px-2 bg-white">
-            <!-- default: bg-gray-100, active: text-white bg-blue-600 -->
-            <span class="w-6 h-6 text-3xs font-bold leading-6 text-center {{ 'text-white bg-blue-600' if step == data.active else 'bg-gray-100' }}  rounded-full">{{ step }}</span>
-            <!-- default: hidden md:block, active: block -->
-            <span class="{{ 'block' if step == data.active else 'hidden md:block' }}">{{ name }}</span>
-          </li>
-        {% endfor %}
-      </ol>
-    </div>
-  </div>
-{% endmacro %}
-{# checklist #}
-{% macro checklist(data) %}
-  <div class="bg-gray-50 {{ utilities.tramline.all }} {{ utilities.pull.x }}">
-    <h3 class="mt-0">{{ data.title }}</h3>
-    <span class="not-prose">
-      <ul class="list list--checklist">
-        {% for item in data.items %}<li>{{ item }}</li>{% endfor %}
-      </ul>
-    </span>
-  </div>
-{% endmacro %}
-{# Responsive Figure #}
-{%- macro figure(img, alt='', caption='', credit='', breakout='', imgclass='w-full', lightbox='', width='', height='', margin='my-4 md:my-8', ratios='') -%}
-  <div class="not-prose">
-    <figure class="group relative {{ margin }} {{ utilities.breakout if breakout else '-mx-3 md:mx-0' }} {{ 'lightbox' if lightbox }}">
-      {% if lightbox -%}
-        <a href="{{ img }}"
-           data-lightbox
-           data-pswp-width="{{ width }}"
-           data-pswp-height="{{ height }}">
-          <img src="{{ img }}"
-               class="{{ imgclass }}"
-               height="auto"
-               width="auto"
-               alt="{{ alt }}">
-        </a>
-      {% else -%}
-        <div class="relative {{ ratios }}">
-          <img src="{{ img }}"
-               height="auto"
-               width="auto"
-               class="{{ imgclass }} {{ 'h-full absolute inset-0 object-cover' if ratios }}"
-               alt="{{ alt }}">
-          {% if credit -%}
-            <div class="credit  opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                 x-data="credit">
-              <button class="credit__icon "
-                      @click="toggle"
-                      :aria-expanded="open ? 'true' : 'false'">
-                <i class="fa-regular fa-image" aria-hidden="true"></i>
-                <span class="sr-only">Show image credit</span>
-              </button>
-              <div class="credit__text " x-cloak x-transition x-show="open">Credit: {{ credit }}</div>
-            </div>
-          {% endif -%}
-        </div>
-        {% if caption -%}
-          <figcaption class="border-b border-gray-200 pb-4 mt-4 text-sm flex items-center justify-start {{ utilities.tramline.x if breakout else 'px-3 md:px-0' }}">
-            {{ caption }}
-          </figcaption>
-        {% endif -%}
-      {% endif -%}
-    </figure>
-  </div>
-{%- endmacro -%}
-{# Multiple image Figure #}
-{%- macro figureMulti(img, caption='', credit='', breakout='' ) -%}
-  <figure class="group not-prose {% if breakout %}{{ utilities.breakout }}{% else %} -mx-3 md:mx-0 {% endif %}">
-    <div class="relative">
-      {{- caller() -}}
-      {% if credit -%}
-        <div class="credit  opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-             x-data="credit">
-          <button class="credit__icon "
-                  @click="toggle"
-                  :aria-expanded="open ? 'true' : 'false'">
-            <i class="fa-regular fa-image" aria-hidden="true"></i>
-            <span class="sr-only">Show image credit</span>
-          </button>
-          <div class="credit__text " x-cloak x-transition x-show="open">Credit: {{ credit }}</div>
-        </div>
-      {% endif -%}
-    </div>
-    {% if caption -%}
-      <figcaption class="border-b border-gray-200 pb-4 mt-4 text-sm flex items-center justify-start {{ utilities.tramline.x if breakout else 'px-3 md:px-0' }}">
-        {{ caption }}
-      </figcaption>
-    {% endif -%}
-  </figure>
-{%- endmacro -%}
 {# Table of Content #}
 {% macro toc(params) -%}
   <div id="toc"
        x-cloak
-       x-data
-       class="flex sticky sticky-root -top-px {{ utilities.margin.y }} z-toc w-full md:justify-center">
-    <div x-data="toc()"
-         class="relative bg-white border border-gray-200 px-4 py-2 rounded w-full md:w-auto transition-all duration-300"
-         :class="open ? 'grow' : ''"
-         x-sticky="shadow-3xl shadow-black/5 rounded-t-none">
-      <button x-bind="trigger"
-              class="flex w-full gap-x-4 justify-between items-center font-semibold">
-        On this page <i class="fa-solid fa-list-ul"></i>
+       x-data="toc"
+       @focusin.window="! $refs.toc.contains($event.target) && close()"
+       x-ref="toc"
+       x-id="['panel-toc']"
+       class="flex sticky sticky-root {{ utilities.margin.y }} -top-px z-toc w-full md:justify-center">
+    <div class="relative bg-white border rounded-tight border-gray-200 px-4 py-2 w-full md:w-auto transition-all delay-150 duration-300"
+         :class="[($store.cache.banner == 'banner--up' ? 'top-[var(--smheaderheight)] md:top-[var(--headerheight)]' : 'top-0'),(open ? 'grow delay-0' : '')]"
+         x-sticky.sticky-root="shadow-3xl shadow-black/5 rounded-t-none"
+         x-sticky-inactive="!top-0">
+      <button @click="toggle()"
+              x-ref="tocbutton"
+              :aria-expanded="open"
+              :aria-controls="$id('panel-toc')"
+              class="flex w-full gap-x-4 justify-between items-center font-semibold focus:outline-none group">
+        On this page <i class="fa-solid fa-list-ul group-focus:ring-2"></i>
       </button>
       {# djlint:off #}
 <div class="relative z-10">
-<div x-cloak x-show="open" class="absolute max-h-[calc(100vh-var(--headerheight))] overflow-y-scroll bg-white border border-gray-200 px-4 py-2 rounded w-full block top-0 left-0 transition-all duration-300">
+<div x-cloak 
+      :id="$id('panel-toc')" x-show="open" 
+      x-transition:enter="transition ease-out duration-150 delay-300"
+      x-transition:enter-start="opacity-0"
+      x-transition:enter-end="opacity-100"
+      x-transition:leave="transition ease-in duration-0"
+      x-transition:leave-start="opacity-100"
+      x-transition:leave-end="opacity-0"
+      class="absolute max-h-[calc(80svh-var(--headerheight))] overflow-y-scroll bg-white border border-gray-200 px-4 py-2 rounded-tight w-full block top-0 left-0 transition-all duration-300">
 
 [[toc]]
 

@@ -1,11 +1,12 @@
 {%- set navPages = collections.all | excludeByFrontMatter("excludeFromMenu") | eleventyNavigation -%}
 <div class="fixed top-0 -translate-y-full w-full shadow-smframe md:shadow-frame h-10 border border-t-2  z-bannershadow {{ 'shadow-black/20 bg-black border-black' if hero.dark else 'shadow-black/10 bg-white border-white' }}">
 </div>
-<header class="banner banner--start py-6 z-banner w-full top-0 duration-300 delay-150"
-        :class="{'banner--freeze' : banner == 'freeze', 'banner--start': banner == 'start', 'banner--up': banner == 'up', 'banner--down ': banner == 'down'}"
+<header class="banner py-6 z-banner w-full top-0 duration-300 delay-150"
+        :class="$store.cache.banner"
         x-ref="banner"
-        x-data="{ banner:'start', ...stickybanner()}"
+        x-data="stickybanner"
         x-init="reactOnScroll()"
+        @set-banner.window="banner == $event.detail.visible"
         @scroll.window="reactOnScroll()">
   <div class="max-w-container mx-auto flex flex-col  md:items-center md:justify-between md:flex-row">
     <div class="flex flex-row items-center justify-between z-10">
@@ -15,7 +16,7 @@
                height="40"
                width="140"
                class="banner__logo w-auto transition-all h-10"
-               :src="banner == 'up' || smNav ? '/img/logos/bypete--ribbon.svg' : '/img/logos/bypete--white.svg'"
+               :src="$store.cache.banner == 'banner--up' || smNav ? '/img/logos/bypete--ribbon.svg' : '/img/logos/bypete--white.svg'"
                alt="byPete">
         {% else -%}
           <img src="/img/logos/bypete--ribbon.svg"

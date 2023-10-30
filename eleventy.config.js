@@ -60,8 +60,6 @@ module.exports = function (eleventyConfig) {
         return '';
     });
 
-    // Async support for `addPairedShortcode` is new in Eleventy v2.0.0
-    // eleventyConfig.addPairedShortcode('hero', hero);
     eleventyConfig.addPairedShortcode(
         'hero',
         async function (content, options = {}) {

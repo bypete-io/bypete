@@ -58,20 +58,23 @@ window.Cookies = Cookies;
 document.addEventListener('alpine:init', () => {
     Alpine.store('cache', {
         theme: null,
+        banner: null,
     });
     Alpine.data('toc', () => ({
         open: false,
-        trigger: {
-            // eslint-disable-next-line func-names
-            '@click': function () {
-                this.open = !this.open;
-            },
-            // eslint-disable-next-line func-names
-            '@click.outside': function () {
-                setTimeout(() => {
-                    this.open = false;
-                }, 750);
-            },
+        toggle() {
+            this.open = !this.open;
+            if (this.open) {
+                this.$refs.tocbutton.focus();
+            }
+        },
+        close(focusAfter) {
+            if (focusAfter) {
+                focusAfter.focus();
+            }
+            setTimeout(() => {
+                this.open = false;
+            }, 750);
         },
     }));
 
@@ -105,16 +108,16 @@ document.addEventListener('alpine:init', () => {
                 }
                 if (st === 0 || st <= ba) {
                     // at top
-                    this.$data.banner = 'start';
+                    this.$store.cache.banner = 'banner--start';
                     this.pageTop = false;
                 } else if (st > this.$data.lastScrollTop && st >= ba) {
                     // going down
-                    this.$data.banner = 'down';
+                    this.$store.cache.banner = 'banner--down';
                 } else if (st < this.$data.lastScrollTop) {
                     // going up
-                    this.$data.banner = 'up';
+                    this.$store.cache.banner = 'banner--up';
                 } else {
-                    this.$data.banner = 'unknown';
+                    this.$store.cache.banner = 'banner--unknown';
                 }
             }
             this.$data.lastScrollTop = st <= 0 ? 0 : st; // For Mobile or negative scrolling
