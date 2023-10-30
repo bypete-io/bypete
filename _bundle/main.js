@@ -103,7 +103,6 @@ document.addEventListener('alpine:init', () => {
                     // halfway viewport height
                     this.pageTop = true;
                 }
-
                 if (st === 0 || st <= ba) {
                     // at top
                     this.$data.banner = 'start';
@@ -114,7 +113,6 @@ document.addEventListener('alpine:init', () => {
                 } else if (st < this.$data.lastScrollTop) {
                     // going up
                     this.$data.banner = 'up';
-                    // this.pageTop = false;
                 } else {
                     this.$data.banner = 'unknown';
                 }
@@ -178,10 +176,10 @@ document.addEventListener('alpine:init', () => {
 
     Alpine.data('cookie', () => ({
         cookie: '',
-        showCookie: false,
+        toastCookie: false,
         cookie_name: 'cnotice',
         freeze(freezeState) {
-            this.showCookie = freezeState;
+            this.toastCookie = freezeState;
             this.$refs.body.classList.toggle('overflow-hidden', freezeState);
             this.$dispatch('show-overlay', { visible: freezeState });
         },
@@ -317,45 +315,6 @@ smoothscroll.polyfill();
 
 /* Vanilla JS | Common 
 --------------------------------------------------------------------------------*/
-const isInViewport = (elem) => {
-    const bounding = elem.getBoundingClientRect();
-    return (
-        bounding.top >= 0 &&
-        bounding.left >= 0 &&
-        bounding.bottom <=
-            (window.innerHeight || document.documentElement.clientHeight) &&
-        bounding.right <=
-            (window.innerWidth || document.documentElement.clientWidth)
-    );
-};
-
-/* Vanilla JS | Hide Prompts | [ Uses "data-prompt" attribute ]
---------------------------------------------------------------------------------*/
-const prompts = document.querySelectorAll('[data-prompt]');
-
-function hidePrompts(items, delay = 1000) {
-    items.forEach((item) => {
-        if (isInViewport(item)) {
-            setTimeout(() => {
-                item.classList.add('animate-fade-out-down');
-            }, delay);
-        }
-    });
-}
-
-if (prompts) {
-    hidePrompts(prompts, 3000);
-    let cached = null;
-    window.addEventListener('scroll', (event) => {
-        if (!cached) {
-            setTimeout(() => {
-                hidePrompts(prompts);
-                cached = null;
-            }, 1500);
-        }
-        cached = event;
-    });
-}
 
 /* Vanilla JS | Swipers |
 --------------------------------------------------------------------------------*/
@@ -375,7 +334,6 @@ if (prompts) {
                 crossFade: true,
             },
             loop: true,
-            // centeredSlides: true,
             autoplay: {
                 delay: 7000,
             },
@@ -525,7 +483,6 @@ if (prompts) {
             },
             speed: 1000,
             slidesPerView: 1,
-            // centeredSlides: true,
             autoplay: {
                 delay: 7500,
             },
