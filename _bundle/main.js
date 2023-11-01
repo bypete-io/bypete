@@ -128,7 +128,6 @@ document.addEventListener('alpine:init', () => {
         open: false,
         freeze(freezeState) {
             this.$refs.body.classList.toggle('overflow-hidden', freezeState);
-            this.$refs.banner.classList.toggle('banner--freeze', freezeState);
             this.$dispatch('show-underlay', { visible: freezeState });
         },
         checkAriaExpanded() {
@@ -162,7 +161,6 @@ document.addEventListener('alpine:init', () => {
     Alpine.data('hamburger', () => ({
         freeze(freezeState) {
             this.$refs.body.classList.toggle('overflow-hidden', freezeState);
-            this.$refs.banner.classList.toggle('banner--freeze', freezeState);
         },
         toggle() {
             const themeMeta = document.querySelector(

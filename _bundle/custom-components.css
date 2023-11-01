@@ -113,13 +113,6 @@
         @apply text-gray-900  hover:bg-white;
     }
 
-    .btn--banner {
-        @apply relative rounded-full border-none px-2.5 py-1  font-medium text-slate-900 transition-all duration-300 hover:bg-slate-600 hover:text-white hover:shadow-bannerlink;
-    }
-    .btn--banner.active {
-        @apply bg-brand  text-slate-900  shadow-bannerlink shadow-brand-darker hover:text-slate-900;
-    }
-
     /* Buttons | Size variants */
     .btn--sm {
         @apply h-7 px-2.5 py-0 text-sm !leading-7;
@@ -504,19 +497,12 @@ before:font-awesome before:text-[1.5em] before:font-black before:not-italic befo
         clip-path: polygon(0 0, 100% 0, 100% 100%, 0% calc(100% - 80px));
         /*padding-bottom: 240px;*/
     }
-    /*.post-angleclip {
-        margin-top: -240px;
-    }*/
 
     @media screen(md) {
         .angleclip {
             clip-path: polygon(0 0, 100% 0, 100% 100%, 0% calc(100% - 100px));
             /*padding-bottom: 300px;*/
         }
-
-        /*.post-angleclip {
-            margin-top: -300px;
-        }*/
     }
 
     .thumbclip {

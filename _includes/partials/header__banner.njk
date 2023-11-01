@@ -8,38 +8,34 @@
         x-init="reactOnScroll()"
         @set-banner.window="banner == $event.detail.visible"
         @scroll.window="reactOnScroll()">
-  <div class="max-w-container mx-auto flex flex-col  md:items-center md:justify-between md:flex-row">
-    <div class="flex flex-row items-center justify-between z-10">
-      <a href="{{ '/' | url }}" aria-label="{{ metadata.url }} - home">
-        {% if hero.dark -%}
-          <img src="/img/logos/bypete--white.svg"
-               height="40"
-               width="140"
-               class="banner__logo w-auto transition-all h-10"
-               :src="$store.cache.banner == 'banner--up' || smNav ? '/img/logos/bypete--ribbon.svg' : '/img/logos/bypete--white.svg'"
-               alt="byPete">
-        {% else -%}
-          <img src="/img/logos/bypete--ribbon.svg"
-               height="40"
-               width="140"
-               class="banner__logo w-auto transition-all h-10"
-               alt="byPete">
-        {% endif -%}
-      </a>
-    </div>
-    <nav id="navigation" class="z-10">
-      <ul class="hidden md:flex my-0 space-x-2 justify-end flex-row"
-          x-ref="menu">
+  <div class="max-w-container mx-auto flex items-center justify-between">
+    <a href="{{ '/' | url }}" aria-label="{{ metadata.url }} - home">
+      {% if hero.dark -%}
+        <img src="/img/logos/bypete--white.svg"
+             height="40"
+             width="140"
+             class="banner__logo w-auto transition-all h-10"
+             :src="$store.cache.banner == 'banner--up' || smNav ? '/img/logos/bypete--ribbon.svg' : '/img/logos/bypete--white.svg'"
+             alt="byPete">
+      {% else -%}
+        <img src="/img/logos/bypete--ribbon.svg"
+             height="40"
+             width="140"
+             class="banner__logo w-auto transition-all h-10"
+             alt="byPete">
+      {% endif -%}
+    </a>
+    <nav id="navigation" aria-label="Main">
+      <ul class="hidden md:flex space-x-2" x-ref="menu">
         {% for entry in navPages -%}
           {%- if entry.children.length -%}
-            <li class="relative px-2"
+            <li class="relative"
                 x-data="menu"
                 @keydown.escape.prevent.stop="close($refs.button)"
                 @focusin.window="! $refs.banner.contains($event.target) && close()"
                 x-id="['dropdown-button']">
-              <div class="relative flex items-center">
-                <a href="{{ entry.url }}" class="block w-full pr-9 pl-2 py-2 menulink" {{ helpers.getLinkActiveState(entry.url, page.url) | safe }}>{{ entry.title }}</a>
-                {# Dropdown button -#}
+              <div class="flex items-center">
+                <a href="{{ entry.url }}" class="block p-2 pr-9 menulink" {{ helpers.getLinkActiveState(entry.url, page.url) | safe }}>{{ entry.title }}</a>
                 <button @click="toggle()"
                         x-ref="button"
                         type="button"
@@ -76,7 +72,7 @@
               </div>
             </li>
           {%- else %}
-            <li class="relative">
+            <li>
               <a class="menulink p-2" href="{{ entry.url }}" {{ helpers.getLinkActiveState(entry.url, page.url) | safe }}>{{ entry.title | safe }}</a>
             </li>
           {%- endif -%}
@@ -86,7 +82,7 @@
   </div>
   {# mobile navigation -#}
 </header>
-<div class="fixed inset-0 z-banner h-full flex items-start bg-brand "
+<div class="fixed inset-0 z-banner h-full flex bg-brand"
      x-show="smNav"
      x-cloak
      x-transition:enter="transition ease-out duration-500"
@@ -109,7 +105,7 @@
         class="grow flex flex-col justify-center space-y-3 w-full">
       {% for entry in navPages -%}
         {%- if entry.children.length -%}
-          <li class="relative  md:px-2" x-data="{ open: false }">
+          <li x-data="{ open: false }">
             <div class="relative flex items-center justify-between">
               <a href="{{ entry.url }}" class="block font-headline font-black text-4xl tracking-tight data-[state=active]:text-white" {{ helpers.getLinkActiveState(entry.url, page.url) | safe }}>{{ entry.title }}</a>
               <button @click="open = !open"
@@ -126,19 +122,19 @@
             </div>
             <div x-cloak
                  x-ref="children"
-                 class="w-full h-0 origin-top transition-all duration-700"
+                 class="w-full h-0 origin-top transition-all duration-500"
                  :class="open ? 'overflow-auto mt-2' : 'overflow-hidden pointer-events-none' "
                  :style="open ? {height: `${$refs.children.scrollHeight}px`} : {height: `0px`}">
-              <div class="max-h-[30vh] overflow-y-scroll p-2 bg-white  rounded-tight shadow-inner shadow-gray-200">
+              <div class="max-h-[33vh] overflow-y-scroll p-2 bg-white  rounded-tight shadow-inner shadow-gray-200">
                 {%- for child in entry.children %}
-                  <a class="block px-3 py-1.5 text-base font-light text-slate-800  hover:bg-white focus:bg-white focus:outline-none focus:ring-1 data-[state=active]:font-bold  data-[state=active]:bg-brand " href="{{ child.url }}" {{ helpers.getLinkActiveState(child.url, page.url) | safe }}>{{ child.title }}</a>
+                  <a class="block px-2 py-1.5 text-base font-light text-slate-700 hover:bg-white focus:bg-white focus:outline-none focus:ring-1 data-[state=active]:font-bold  data-[state=active]:bg-brand " href="{{ child.url }}" {{ helpers.getLinkActiveState(child.url, page.url) | safe }}>{{ child.title }}</a>
                 {%- endfor -%}
               </div>
             </div>
           </li>
         {%- else %}
           <li class="relative">
-            <a class="w-full py-0.5 font-headline font-black text-4xl tracking-tight data-[state=active]:text-white" href="{{ entry.url }}" {{ helpers.getLinkActiveState(entry.url, page.url) | safe }}>{{ entry.title | safe }}</a>
+            <a class="w-full block py-0.5 font-headline font-black text-4xl tracking-tight data-[state=active]:text-white" href="{{ entry.url }}" {{ helpers.getLinkActiveState(entry.url, page.url) | safe }}>{{ entry.title | safe }}</a>
           </li>
         {%- endif -%}
       {%- endfor -%}

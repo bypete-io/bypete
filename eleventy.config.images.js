@@ -112,22 +112,22 @@ ${Object.values(metadata)
         let wrap;
 
         if (caption) {
-            wrap = `<figure class="relative ${breakoutClass} ${wrapper}">
+            wrap = `<figure class="relative not-prose ${breakoutClass} ${wrapper}">
             <div class="${creditClass} ${ratioClass}">${pictureOutput}</div>
             <figcaption class="border-b border-gray-200 pb-4 mt-4 text-sm flex items-center justify-start ${captionClass}">${caption}</figcaption>
         </figure>
     `;
         } else {
             wrap = breakout
-                ? `<div class="relative not-prose ${breakoutClass} ${wrapper}">
-                <div class="${creditClass} ${ratioClass}">${pictureOutput}</div>
-            </div>
-        `
+                ? `<div class="relative not-prose ${breakoutClass} ${wrapper}"><div class="relative group ${ratioClass}">${pictureOutput}</div></div>
+                `
                 : `${
-                      credit ? `<div class="relative group ${wrapper}">` : ''
-                  }${pictureOutput}${credit ? `</div>` : ''}`;
+                      credit || ratio
+                          ? `<div class="relative group not-prose ${wrapper} ${ratioClass}">`
+                          : ''
+                  }${pictureOutput}${credit || ratio ? `</div>` : ''}
+                  `;
         }
-
         return wrap;
     });
 
@@ -136,7 +136,7 @@ ${Object.values(metadata)
         metadata,
         imageAttributes,
         detailMetadata,
-        detailMedia
+        detailMedia,
     ) {
         // use the lower resolution width, height and url for the img
         const lowsrc = metadata.jpeg[0];
@@ -147,10 +147,8 @@ ${Object.values(metadata)
                       (imageFormat) =>
                           `
   <source type="${imageFormat[0].sourceType}" srcset="${imageFormat
-                              .map((entry) => entry.srcset)
-                              .join(
-                                  ', '
-                              )}" media="${detailMedia}" sizes="100vw" >`
+      .map((entry) => entry.srcset)
+      .join(', ')}" media="${detailMedia}" sizes="100vw" >`,
                   )
                   .join('\n')
             : '';
@@ -162,8 +160,8 @@ ${Object.values(metadata)
                     (imageFormat) =>
                         `
   <source type="${imageFormat[0].sourceType}" srcset="${imageFormat
-                            .map((entry) => entry.srcset)
-                            .join(', ')}" sizes="${imageAttributes.sizes}">`
+      .map((entry) => entry.srcset)
+      .join(', ')}" sizes="${imageAttributes.sizes}">`,
                 )
                 .join('\n');
 
@@ -233,7 +231,7 @@ ${sources}
                           formats: ['avif', 'webp'],
                           outputDir: path.join(
                               eleventyConfig.dir.output,
-                              'img'
+                              'img',
                           ), // Advanced usage note: `eleventyConfig.dir` works here because we’re using addPlugin.
                           sharpWebpOptions: { quality: 90 },
                           sharpAvifOptions: { quality: 90 },
@@ -256,11 +254,11 @@ ${sources}
                 metadata,
                 imageAttributes,
                 detailMetadata,
-                detailMedia
+                detailMedia,
             );
 
             return pictureOutput;
-        }
+        },
     );
 
     function lightboxHTML(metadata, imageAttributes) {
