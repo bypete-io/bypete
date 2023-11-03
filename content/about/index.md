@@ -74,7 +74,7 @@ eleventyNavigation:
 
 <!-- grid content -->
 <div class="absolute inset-0 h-full w-full">
-{% imageArtDirection { src: './concrete--teal.webp', detailSrc: './concrete--teal@sm.webp', alt: 'Rustic Teal background', widths: [720, 1280, 'auto'], sizes: '100vw', detailMedia: '(max-width: 767px)', classlist: 'object-cover object-bottom md:object-center w-full h-full', loading: 'eager' } %}
+{% image { src: './concrete--teal.webp', detailSrc: './concrete--teal@sm.webp', alt: 'Rustic Teal background', widths: [720, 1280, 'auto'], sizes: '100vw', detailMedia: '(max-width: 767px)', classlist: 'object-cover object-bottom md:object-center w-full h-full', loading: 'eager' } %}
 </div>
 <div class="relative grid grid-rows-1 grid-cols-1 md:grid-cols-block50 2xl:grid-cols-block33 md:min-h-widescreen lg:min-h-block lg:h-block gap-4 md:gap-8 pt-[var(--smheaderheight)] md:pt-[var(--headerheight)] max-w-container mx-auto">
   <div class="self-center w-full"

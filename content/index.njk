@@ -32,7 +32,7 @@ slider:
 {% block hero %}
   {% hero { data: hero, overflow: true, wrapper: 'grid grid-cols-1 items-center overflow-x-hidden pb-[240px] min-h-[calc(100svh+240px)] angleclip origin-top [&+*]:-mt-[240px]' } -%}
   <div class="absolute inset-0 h-full w-full">
-    {% imageArtDirection { src: '/hero/heatmap--r.webp', detailSrc: '/hero/heatmap--b@sm.webp', alt: 'Purple heatmap background', widths: [720, 1280, 'auto'], sizes: '100vw', detailMedia: '(max-width: 767px)', classlist: 'object-cover object-bottom md:object-center w-full h-full', loading: 'eager' } %}
+    {% image { src: '/hero/heatmap--r.webp', detailSrc: '/hero/heatmap--b@sm.webp', alt: 'Purple heatmap background', widths: [720, 1280, 'auto'], sizes: '100vw', detailMedia: '(max-width: 767px)', classlist: 'object-cover object-bottom md:object-center w-full h-full', loading: 'eager' } %}
   </div>
   <img src="/img/details/contour__heatmap--mr.svg"
        class="fixed inset-0 object-cover w-full h-full"
