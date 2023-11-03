@@ -147,12 +147,12 @@
         }
 
         .hero--dark & {
-            @apply bg-slate-900;
             &--start,
             &--down {
                 @apply bg-transparent;
             }
             &--up {
+                @apply bg-slate-900;
             }
             &__logo {
                 @apply shadow-black/50 drop-shadow-logo;

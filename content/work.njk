@@ -22,7 +22,7 @@ eleventyNavigation:
 {% block hero %}
   {% hero { data: hero, overflow: true, wrapper: 'grid grid-cols-1 items-center overflow-x-hidden pb-[240px] min-h-square lg:min-h-block angleclip [&+*]:-mt-[240px]' } -%}
   <div class="absolute inset-0 h-full w-full">
-    {% imageArtDirection { src: './work/inflated-half--slate--cr.webp', detailSrc: './work/inflated-half--slate--tc@sm.webp', alt: 'Inflated abstract background', widths: [720, 1280, 'auto'], sizes: '100vw', detailMedia: '(max-width: 767px)', classlist: 'object-cover object-top md:object-center w-full h-full', loading: 'eager' } %}
+    {% image { src: './work/inflated-half--slate--cr.webp', detailSrc: './work/inflated-half--slate--tc@sm.webp', alt: 'Inflated abstract background', widths: [720, 1280, 'auto'], sizes: '100vw', detailMedia: '(max-width: 767px)', classlist: 'object-cover object-top md:object-center w-full h-full', loading: 'eager' } %}
   </div>
   <!-- content -->
   <div class="grid relative grid-cols-1 md:grid-cols-block50 gap-4 md:gap-8 max-w-container mx-auto py-[var(--smheaderheight)] md:py-[var(--headerheight)]">
