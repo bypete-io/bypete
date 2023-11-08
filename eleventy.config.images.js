@@ -14,38 +14,31 @@ module.exports = (eleventyConfig) => {
         detailMetadata,
         detailMedia,
     ) {
-        const { ratio } = imageAttributes;
-        const imgClass = ratio
+        const imgClass = imageAttributes.ratio
             ? 'w-full h-full absolute inset-0 object-cover'
             : '';
-        // use the lower resolution width, height and url for the img
         const lowsrc = metadata.jpeg[0];
 
-        const detailOutput = detailMetadata
-            ? Object.values(detailMetadata)
-                  .map(
-                      (imageFormat) =>
-                          `
-<source type="${imageFormat[0].sourceType}" srcset="${imageFormat
-                              .map((entry) => entry.srcset)
-                              .join(
-                                  ', ',
-                              )}" media="${detailMedia}" sizes="100vw" >`,
-                  )
-                  .join('\n')
-            : '';
-
-        const sourceOutput =
-            detailOutput +
-            Object.values(metadata)
+        const generateSourceOutput = (metadataObj, media, sizes) =>
+            Object.values(metadataObj)
                 .map(
                     (imageFormat) =>
                         `
 <source type="${imageFormat[0].sourceType}" srcset="${imageFormat
                             .map((entry) => entry.srcset)
-                            .join(', ')}" sizes="${imageAttributes.sizes}">`,
+                            .join(', ')}" sizes="${sizes}"${
+                            media ? ` media="${media}"` : ''
+                        }>`,
                 )
                 .join('\n');
+
+        const detailOutput = detailMetadata
+            ? generateSourceOutput(detailMetadata, detailMedia, '100vw')
+            : '';
+
+        const sourceOutput =
+            detailOutput +
+            generateSourceOutput(metadata, '', imageAttributes.sizes);
 
         let picture = `
 <picture>
@@ -60,7 +53,8 @@ ${sourceOutput}
     decoding="async">
 </picture>`;
 
-        const credit = `
+        if (imageAttributes.credit) {
+            const credit = `
 <div class="credit opacity-0 group-hover:opacity-100 transition-opacity duration-300"
   x-data="credit">
   <button class="credit__icon "
@@ -71,8 +65,6 @@ ${sourceOutput}
   </button>
   <div class="credit__text" x-cloak x-transition x-show="open">Credit: ${imageAttributes.credit}</div>
 </div>`;
-
-        if (imageAttributes.credit) {
             picture = `${picture}${credit}`;
         }
 
@@ -177,7 +169,6 @@ ${sourceOutput}
     });
 
     function lightboxHTML(metadata, imageAttributes) {
-        // use the lower resolution width, height and url for the img
         const lowJpeg = metadata.jpeg[0];
         const highJpeg = metadata.jpeg[metadata.jpeg.length - 1];
 
@@ -238,8 +229,8 @@ ${sourceOutput}
             formats: ['webp', 'jpeg'],
             urlPath: '/img/lightbox/',
             outputDir: path.join(eleventyConfig.dir.output, 'img/lightbox'), // Advanced usage note: `eleventyConfig.dir` works here because we’re using addPlugin.
-            sharpWebpOptions: { quality: 95 },
-            sharpAvifOptions: { quality: 95 },
+            sharpWebpOptions: { quality: 90 },
+            sharpAvifOptions: { quality: 90 },
         });
 
         const imageAttributes = {
