@@ -62,7 +62,7 @@ eleventyNavigation:
        alt="countour lines">
 
   <div class="relative grid grid-rows-1 grid-cols-1 md:grid-cols-2 lg:grid-cols-block60 min-h-block gap-8 max-w-container mx-auto">
-    <div class="md:order-2 self-center rte-content {{ utilities.tramline.y }}">
+    <div class="md:order-2 self-center rte {{ utilities.tramline.y }}">
       <blockquote class="not-prose italic pl-0 m-0 text-xl md:text-2xl xl:text-3xl">
         <p class="font-headline mb-4">
           <strong>So glad there's finally an app for K&nbsp;Ring!</strong>

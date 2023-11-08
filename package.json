@@ -1,6 +1,6 @@
 {
   "name": "bypete",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "Portfolio site for Pete Wallace",
   "scripts": {
     "test": "webpack --json > stats.json --config webpack.dev.js",

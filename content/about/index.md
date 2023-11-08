@@ -81,8 +81,8 @@ eleventyNavigation:
             x-cloak
             :class="shown ? 'animate-fade-in-down' : 'invisible'">
     <h1 id="headline" class="text-4xl/normal lg:text-7xl/none relative text-shadow-headline">{{ title }}</h1>
-    <div class="max-w-prose mt-4 md:mt-6 rte-content">
-    <p class="text-xl lg:text-2xl xl:text-3xl font-medium">
+    <div class="max-w-prose mt-4 md:mt-6 rte">
+    <p class="text-xl lg:text-2xl 2xl:text-3xl font-medium">
       I’m a Surrey based Front-End developer with over two decades of experience in digital.
     </p>
     <p class="flex flex-row gap-2">
