@@ -203,6 +203,18 @@ document.addEventListener('alpine:init', () => {
         },
     }));
 
+    Alpine.data('randomcase', () => ({
+        open() {
+            if (this.caseArray.length > 0) {
+                const url =
+                    this.caseArray[
+                        Math.floor(Math.random() * this.caseArray.length)
+                    ];
+                window.open(url, '_self');
+            }
+        },
+    }));
+
     Alpine.data('roles', () => ({
         roleIndex: 0,
         roleObj: [

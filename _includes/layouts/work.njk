@@ -30,7 +30,7 @@
     <div class="max-w-container mx-auto">
       <article id="start" class="max-w-3xl mx-auto">
         <div class="max-w-none rte prose lg:prose-lg mx-auto">
-          {%- set roles = {"breakout": "true"} -%}
+          {%- set style = {"breakout": "true"} -%}
           {%- include "partials/skills.njk" %}
           {% block content %}
             {{ content | safe }}

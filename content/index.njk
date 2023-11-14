@@ -54,31 +54,25 @@ slider:
       <div class="rte text-shadow-emboss shadow-slate-900 text-white">
         <p class="text-lg mb-4">This space has been crafted to demonstrate my abilities, methods, and expertise.</p>
         <p class="flex flex-wrap items-center gap-4 text-shadow-none">
-          <a href="/work" class="btn btn--primary btn--icon group">View some work
-            <svg xmlns="http://www.w3.org/2000/svg"
-                 viewBox="0 0 24 24"
-                 fill="currentColor"
-                 class="w-6 h-6 group-hover:animate-nudge-right">
-              <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm4.28 10.28a.75.75 0 000-1.06l-3-3a.75.75 0 10-1.06 1.06l1.72 1.72H8.25a.75.75 0 000 1.5h5.69l-1.72 1.72a.75.75 0 101.06 1.06l3-3z" clip-rule="evenodd" />
-            </svg>
-          </a>
-          <a href="/about" class="btn btn--outline">Read my bio</a>
-        </p>
-      </div>
-    </div>
-    <!-- end content -->
-    <!-- image options [default]: [items-center] items-start items-end items-stretch -->
-    <div class="flex items-center justify-center relative min-w-0 min-h-0 ">
-      <div class="absolute scale-105 aspect-1 w-full ">
-        <div class="absolute border border-white/25 w-full h-full animate-morph-delay"></div>
-        <div class="absolute  bg-slate-900/5 w-full h-full animate-morph"></div>
-      </div>
-      {% include "partials/swiper/home.njk" %}
-    </div>
+        <a href="/work" class="btn btn--primary btn--icon group">View some work <i class="fa-solid fa-angles-right group-hover:animate-nudge-right"></i>
+      </a>
+      <a href="/about" class="btn btn--outline">Read my bio</a>
+    </p>
   </div>
-  <div class="absolute pointer-events-none top-screenSvh -translate-y-full z-shortcuts -translate-x-1/2 pb-4 md:pb-8 left-1/2 ">
-    {% include "partials/scrollprompt.njk" %}
+</div>
+<!-- end content -->
+<!-- image options [default]: [items-center] items-start items-end items-stretch -->
+<div class="flex items-center justify-center relative min-w-0 min-h-0 ">
+  <div class="absolute scale-105 aspect-1 w-full ">
+    <div class="absolute border border-white/25 w-full h-full animate-morph-delay"></div>
+    <div class="absolute  bg-slate-900/5 w-full h-full animate-morph"></div>
   </div>
+  {% include "partials/swiper/home.njk" %}
+</div>
+</div>
+<div class="absolute pointer-events-none top-screenSvh -translate-y-full z-shortcuts -translate-x-1/2 pb-4 md:pb-8 left-1/2 ">
+  {% include "partials/scrollprompt.njk" %}
+</div>
 {% endhero %}
 {% endblock hero -%}
 {% block content %}
