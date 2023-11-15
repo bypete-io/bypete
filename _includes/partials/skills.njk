@@ -1,12 +1,12 @@
 {%- if skillset %}{# djlint:off #}
-<div class="{{ skillset.bg or 'bg-slate-900' }} relative not-prose {% if roles.breakout %} {{ utilities.breakout }} {% else %} {{ utilities.pull.x }} {% endif %}">
+<div class="{{ skillset.bg or 'bg-slate-900' }} relative not-prose {% if style.breakout %} {{ utilities.breakout }} {% else %} {{ utilities.pull.x }} {% endif %}">
   <div class="max-w-3xl px-4 md:px-8 conpad:px-0 mx-auto relative {{ skillset.heading or 'permalink:text-white' }} {{ utilities.tramline.double.y }} ">
       
-  ## Skills
+  ## {{ style.title or 'Skills'}}
 
   <ul class="grid gap-8 grid-cols-1 lg:grid-cols-2 {{ skillset.text or 'text-white' }} {{ skillset.shadow or 'text-shadow-emboss shadow-black/25' }}">
     {%- for area in skillset.areas %}
-      <li {% if group.class %}class="{{ area.class }}"{% endif %}>
+      <li {% if area.class %}class="{{ area.class }}"{% endif %}>
         <h3 >{{ area.title }}</h3>
         <ul class="list list--checklist {{ skillset.icon or '[&>li]:before:!text-white' }}">
           {%- for skill in area.skills %}

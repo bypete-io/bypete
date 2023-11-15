@@ -14,46 +14,40 @@ brand:
     bg: 'bg-gradient-to-b from-putty to-putty-dark'
     color: 'text-[#00a3e2]'
 skillset:
-    bg: 'bg-gradient-to-b from-white to-putty-dark'
+    bg: 'bg-white'
     text: 'text-gray-700'
     icon: '[&>li]:before:!text-accent'
     heading: 'permalink:text-gray-700 permalink:before:text-[#00a3e2]'
     shadow: 'text-shadow-emboss shadow-white/20'
     areas:
-        - title: 'Apps'
+        - title: 'Front-End Development'
           skills:
-              - 'Adobe Photoshop'
-              - 'Adobe Illustrator'
-              - 'Adobe Creative Cloud...'
-        - title: 'Development'
+              - 'Tailwind CSS, SCSS, Foundation'
+              - 'Alpine.js, ES6, jQuery'
+              - 'Gulp, npm, Webpack'
+              - 'Xamarin.Forms'
+        - title: 'Email Development'
           skills:
-              - 'Visual Studio Code'
-              - 'Visual Studio'
-        - title: 'CSS'
-          skills:
-              - 'Foundation for sites, via CLI'
-              - 'Foundation for emails, via CLI'
-              - 'Tailwind CSS'
+              - 'Foundation for Emails'
               - 'Maizzle (Tailwind for email)'
-              - 'SCSS'
-              - 'Vanilla CSS'
-        - title: 'Javascript'
+              - 'SCSS/ Inline CSS'
+        - title: 'Development tools'
           skills:
-              - 'jQuery'
-              - 'Alpine.js'
-              - 'Vanilla js'
-        - title: 'Compilers and bundlers'
-          skills:
-              - 'Gulp'
-              - 'npm'
-              - 'Webpack'
+              - 'Visual Studio Code, Visual Studio'
+              - 'Adobe Creative Cloud (Photoshop, Illustrator, Acrobat, Lightroom)'
+              - 'Microsoft Office'
         - title: 'SaaS / PaaS'
           skills:
               - 'Mailchimp'
               - 'Zoho CRM'
               - 'Slack'
+              - 'Microsoft Teams'
               - 'Azure Dev Ops'
-        - title: 'Responsibilities'
+        - title: 'Key Competencies'
+          class: 'col-span-full'
+          skills:
+              - 'Creativity and problem solving'
+        - title: 'Role-Specific Responsibilities'
           class: 'col-span-full'
           skills:
               - 'HTML Templates'
@@ -122,8 +116,43 @@ As distribution shifted from physical (PC/Mac CD-ROMs) to online, I transferred 
 
 In 2009, the agency refocused its efforts and established itself as **the** marketing agency for Europe's emerging payments sector. Since then, I've concentrated solely on Front-End development, mostly within the fintech landscape.
 
-{%- set roles = {"breakout": "true"} -%}
-{%- include "partials/skills.njk" %}{# djlint:off #}
+{%- set style = {"title": "Core skills", "breakout": "true"} -%}
+{%- include "partials/skills.njk" %}
+
+{% blocktype { overflow: true, breakout: true, wrapper: 'bg-brand outline-none', legibility: 'text-slate-800'  } -%}
+<img src="/img/details/contour__16--ffffff--br.svg"
+       class="absolute inset-0 object-cover w-full h-full opacity-20"
+       width="1920"
+       height="1080"
+       alt="countour lines">
+
+  <div class="relative grid grid-rows-1 grid-cols-1 md:grid-cols-2 lg:grid-cols-block60 min-h-block py-8 md:py-0 gap-8 max-w-container mx-auto items-center">
+    <div class="md:order-2 rte">
+      <h2>Show and tell</h2>
+      <p>Curious to see my work in action? Discover the stories behind my projects, the challenges addressed, and the solutions crafted.</p>
+{%- set postslist = collections['case study'] %}
+{%- set urlList = [] %}
+{%- for post in postslist %}
+{% set urlList = urlList.concat(post.url) %}
+{% endfor -%}
+
+<p class="flex flex-row gap-2" x-data="{caseArray: {{ urlList | dump | replace('"', "'") | safe }}, ...randomcase()}">
+  <a href="/work" class="btn btn--primary btn--icon group">Explore the portfolio <i class="fa-solid fa-angles-right group-hover:animate-nudge-right"></i>
+  </a>
+  <a href="/work" @click.prevent="open()" class="btn btn--primary btn--icon group">Random <i class="fa-solid fa-shuffle animate-pulse"></i>
+</svg>
+</a>
+</p>
+
+    </div>
+    <div class="md:order-1">
+      {%- image { src: "3mobiles.png", alt: "Hand holding an iPhone with mykring app in use", widths: [320, 720], sizes:'(max-width: 48em) calc(100vw - 2rem), 720px', classlist: 'relative object-contain w-full h-full' } %}
+    </div>
+
+  </div>
+{% endblocktype %}
+
+{# djlint:off #}
 
 ## Workflow {# djlint:on #}
 

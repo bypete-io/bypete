@@ -54,7 +54,7 @@ eleventyNavigation:
   With no prior app development experience, the learning curve was steep. [Xamarin.Forms](https://dotnet.microsoft.com/en-us/apps/xamarin/xamarin-forms) was chosen because it offers a cross-platform framework with a single code base. The main website already used the .NET developer platform, so extending that to the app made sense.
   Although an initial wireframe document was provided, it was essentially an imitation of the mykring.com responsive pages. Rather than simply replicating what we had, we wanted to improve the user experience wherever possible.
 
-{% blocktype { overflow: true, breakout: true, wrapper: 'bg-neutral-100 outline-none', legibility: 'text-gray-700'  } -%}
+{% blocktype { overflow: true, breakout: true, wrapper: 'bg-neutral-100 outline-none ' + utilities.margin.y, legibility: 'text-gray-700'  } -%}
 <img src="/img/details/contour__16--cr.svg"
        class="absolute inset-0 object-cover w-full h-full"
        width="1920"
