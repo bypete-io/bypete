@@ -2,10 +2,6 @@
 layout: layouts/post.njk
 title: Legal notices
 date: 2023-09-01
-img:
-    credity: 'AFV Estates Limited'
-    listing: '/work/afv/listing.jpg'
-    breakouty: true
 eleventyNavigation:
     key: Legal
     parent: About
