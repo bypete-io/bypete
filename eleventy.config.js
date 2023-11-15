@@ -83,7 +83,6 @@ module.exports = function (eleventyConfig) {
         'blocktype',
         async function (content, options = {}) {
             const {
-                data = '',
                 overflow = '',
                 legibility = '',
                 breakout = '',
@@ -93,7 +92,7 @@ module.exports = function (eleventyConfig) {
             const breakoutClass = breakout
                 ? 'w-screen max-w-none left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]'
                 : '';
-            return `<div class="not-prose w-full relative outline-none ${wrapper} ${contained} ${breakoutClass} ${legibility} ${data.bg}"  x-data="{ shown: false }"
+            return `<div class="not-prose w-full relative outline-none ${wrapper} ${contained} ${breakoutClass} ${legibility}"  x-data="{ shown: false }"
   x-intersect.threshold.25="shown = true">
         ${content}
       </div>`;
