@@ -160,7 +160,7 @@ ${sourceOutput}
                 `
                 : `${
                       credit || ratio || wrapper
-                          ? `<div class="not-prose ${wrapper} ${creditClass} ${ratioClass}">`
+                          ? `<div class="not-prose relative ${wrapper} ${creditClass} ${ratioClass}">`
                           : ''
                   }${pictureOutput}${credit || ratio || wrapper ? `</div>` : ''}
                   `;
